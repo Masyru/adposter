@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ title }}</title>
+    <link rel="stylesheet" href="/public/style/base.css">
+    <!-- Bootstrap 3   -->
+    <link
+            rel="stylesheet"
+            href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+            integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+            crossorigin="anonymous"
+    />
+    <link
+            rel="stylesheet"
+            href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+            integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+            crossorigin="anonymous"
+    >
+    <!--  ZMDI Icons-->
+    <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css"
+    >
+</head>
+<body>
+    <div id="viewport">
+          <!-- Sidebar -->
+          <div id="sidebar">
+                <header>
+                    <a href="/dashboard">AdPoster</a>
+                </header>
+                <ul class="nav">
+                      <li>
+                            <a href="/dashboard">
+                                <i class="zmdi zmdi-view-dashboard"></i> Доска объявлений
+                            </a>
+                      </li>
+                      <li>
+                            <a href="/library">
+                                <i class="zmdi zmdi-view-day"></i> Библиотека
+                            </a>
+                      </li>
+                      <li>
+                            <a href="/account">
+                                <i class="zmdi zmdi-account-add"></i> Учетные записи
+                            </a>
+                      </li>
+                </ul>
+          </div>
+          <!-- Content -->
+              <div id="content">
+                    <nav class="navbar navbar-default">
+                          <div class="container-fluid">
+                                <ul class="nav navbar-nav navbar-right">
+                                      <li>
+                                            <a href="#"><i class="zmdi zmdi-notifications"></i>
+                                            </a>
+                                      </li>
+                                      <li><a href="/">Выйти</a></li>
+                                </ul>
+                          </div>
+                    </nav>
+                    <div class="container-fluid">
+                        <h1>Контейнер</h1>
+                              <p>
+                                    Здесь будут находиться все блоки
+                                    <code>#content</code>.
+                              </p>
+                    </div>
+              </div>
+    </div>
+    <!-- jQuery   -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- Bootstrap 3   -->
+    <script
+            src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous">
+    </script>
+    <!-- Notification  -->
+    <!-- Container  -->
+    <script type="text/javascript" src="{{ path }}"></script>
+</body>
+</html>

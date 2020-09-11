@@ -20,23 +20,23 @@ def index():
         login = request.form['login']
         password = request.form['password']
         if login == LOGIN and password == PASSWORD:
-            return render_template('index.html', title='Главная / AdPoster', path='/static/js/dashboard')
+            return render_template('index.html', title='Доска объявлений / AdPoster', path='/public/js/dashboard.js')
     return render_template('login.html')
 
 
 @app.route('/dashboard', methods=['GET'])
 def dashboard():
-    return render_template('index.html', title='Доска объявлений / AdPoster', path='/static/js/dashboard')
+    return render_template('index.html', title='Доска объявлений / AdPoster', path='/public/js/dashboard.js')
 
 
 @app.route('/library', methods=['GET'])
 def library():
-    return render_template('index.html', title='Библиотека фото / AdPoster', path='/static/js/library')
+    return render_template('index.html', title='Библиотека фото / AdPoster', path='/public/js/library.js')
 
 
 @app.route('/account', methods=['GET'])
 def account():
-    return render_template('index.html', title='Учетные записи / AdPoster', path='/static/js/account')
+    return render_template('index.html', title='Учетные записи / AdPoster', path='/public/js/account.js')
 
 
 if __name__ == '__main__':

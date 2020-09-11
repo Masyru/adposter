@@ -5,32 +5,34 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ title }}</title>
+    <!--  Favicons  -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/public/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/public/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/public/favicon/site.webmanifest">
+    <!-- Base style   -->
     <link rel="stylesheet" href="/public/style/base.css">
     <!-- Bootstrap 3   -->
-    <link
-            rel="stylesheet"
-            href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-            integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
-            crossorigin="anonymous"
-    />
-    <link
-            rel="stylesheet"
-            href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
-            integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
-            crossorigin="anonymous"
-    >
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
     <!--  ZMDI Icons-->
     <link
             rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css"
     >
+    <!--  Awesome Icons-->
+    <link rel="stylesheet" href="/public/font-awesome/css/font-awesome.min.css">
+
 </head>
 <body>
     <div id="viewport">
           <!-- Sidebar -->
           <div id="sidebar">
                 <header>
-                    <a href="/dashboard">AdPoster</a>
+                    <a href="">AdPoster</a>
                 </header>
                 <ul class="nav">
                       <li>
@@ -51,26 +53,10 @@
                 </ul>
           </div>
           <!-- Content -->
-              <div id="content">
-                    <nav class="navbar navbar-default">
-                          <div class="container-fluid">
-                                <ul class="nav navbar-nav navbar-right">
-                                      <li>
-                                            <a href="#"><i class="zmdi zmdi-notifications"></i>
-                                            </a>
-                                      </li>
-                                      <li><a href="/">Выйти</a></li>
-                                </ul>
-                          </div>
-                    </nav>
-                    <div class="container-fluid">
-                        <h1>Контейнер</h1>
-                              <p>
-                                    Здесь будут находиться все блоки
-                                    <code>#content</code>.
-                              </p>
-                    </div>
-              </div>
+          <div id="content">
+                <nav class="navbar navbar-default" id="navbar"></nav>
+                <div class="container-fluid" id="app"></div>
+          </div>
     </div>
     <!-- jQuery   -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -82,6 +68,7 @@
     </script>
     <!-- Notification  -->
     <!-- Container  -->
+    <script type="text/javascript" src="/public/js/navbar.js"></script>
     <script type="text/javascript" src="{{ path }}"></script>
 </body>
 </html>

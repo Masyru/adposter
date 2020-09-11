@@ -1,0 +1,13 @@
+@import url('https://fonts.googleapis.com/css?family=Muli&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,400i,500');
+
+#app {
+	font-family: 'Roboto', sans-serif;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+    max-height: 100vh;
+    overflow-y: auto;
+	margin: 0;
+}

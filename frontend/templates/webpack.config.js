@@ -6,7 +6,8 @@ module.exports = {
       account: "./entrance/account.js",
       dashboard: "./entrance/dashboard.js",
       library: "./entrance/library.js",
-      navbar: "./entrance/navbar.js"
+      navbar: "./entrance/navbar.js",
+      offer: "./entrance/offer.js"
   },
   output:{
     filename:"../static/js/[name].js",

@@ -1,6 +1,7 @@
 import datetime
 from flask import Flask, request, render_template, url_for
 from json import dumps
+from time import time
 
 app = Flask(__name__,
             static_url_path='/public/',
@@ -39,5 +40,14 @@ def account():
     return render_template('index.html', title='Учетные записи / AdPoster', path='/public/js/account.js')
 
 
-if __name__ == '__main__':
+@app.route('/offer', methods=['GET'])
+def offer():
+    return render_template('offer.html')
+
+
+def main():
     app.run(host='0.0.0.0', port='8000', debug=True)
+
+
+if __name__ == '__main__':
+    main()

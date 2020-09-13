@@ -6,19 +6,22 @@ html, body {
   font-size: 16px;
   width: 100vw;
   height: 100vh;
+  position: relative;
 }
 
 /* Toggle Styles */
 
 #viewport {
-  padding-left: 250px;
   -webkit-transition: all 0.5s ease;
   -moz-transition: all 0.5s ease;
   -o-transition: all 0.5s ease;
   transition: all 0.5s ease;
+  width: 100%;
+  height: 100%;
 }
 
 #content {
+  padding-left: 250px;
   width: 100%;
   position: relative;
   margin-right: 0;

@@ -11,3 +11,24 @@
     overflow-y: auto;
 	margin: 0;
 }
+
+.create-offer-btn {
+	height: 50px;
+	width: 100%;
+	display: flex;
+}
+
+.create-offer-btn a {
+	margin: auto;
+	padding: 5px 20px;
+	border-radius: 10px;
+	border: 1px solid rgba(0, 0, 0, 0.3);
+	text-decoration: none;
+	font-size: 14px;
+	font-weight: 400;
+}
+
+.create-offer-btn a:hover {
+	background-color: #ddd;
+	transition: all 200ms ease;
+}

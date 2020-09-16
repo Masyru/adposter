@@ -1,0 +1,71 @@
+.profile {
+    width: 100%;
+    display: flex;
+}
+
+.profile span {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    font-size: 18px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    width: 100px    ;
+}
+
+.profile input {
+    background-color: #ffffff;
+    border: 1px solid #ced4da;
+    border-radius: 0;
+    width: 220px;
+    height: calc(1.5em + .75rem + 2px);
+    padding: 6px 12px;
+    margin: auto 20px;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    background-clip: padding-box;
+    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+}
+
+.profile input::placeholder {
+    color: #6c757d;
+    opacity: 1;
+}
+
+.profile input:focus {
+    color: #495057;
+    background-color: #fff;
+    border-color: #80bdff;
+    outline: 0;
+    box-shadow: 0 0 0 .2rem rgba(0,123,255,.25);
+}
+
+.profile button {
+    color: #fff;
+    background-color: #28a745;
+    border-color: #28a745;
+    padding: 5px 12px;
+    font-size: 16px;
+    line-height: 1.5;
+    text-align: center;
+    vertical-align: middle;
+    border-radius: .25rem;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+.profile button:hover {
+    color: #fff;
+    background-color: #218838;
+    border-color: #1e7e34;
+    text-decoration: none;
+    padding: 5px 12px;
+    line-height: 1.5;
+    border-radius: .25rem;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+.my-4 {
+    margin: 20px 0;
+}

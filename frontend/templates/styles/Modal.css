@@ -79,6 +79,14 @@
     overflow-y: auto;
 }
 
+.info-modal__dialog .price {
+    padding: 5px 20px;
+    color: #dddddd;
+    background-color: #263238;
+    border: none;
+    border-radius: 15px;
+}
+
 .info-modal__dialog main .offer-group-btn {
     display: flex;
 }

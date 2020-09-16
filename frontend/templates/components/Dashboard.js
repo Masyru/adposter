@@ -30,6 +30,8 @@ class Info extends React.Component{
                             <h2>{info.title}</h2>
                             <p>{info.description}</p>
                             <div className="views">Просмотров: {info.views}</div>
+                            <br />
+                            <span className="price">{info.price === 0 ? 'Договорная' : `${info.price} ₽`}</span>
                             <div className="offer-group-btn">
                                 <button type={'button'} className={'sold-offer'}>Закрыть предложение</button>
                                 <button type={'button'} className={'close-offer'}>Удалить везде</button>

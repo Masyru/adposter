@@ -2,6 +2,7 @@ import datetime
 from flask import Flask, request, render_template, url_for
 from json import dumps
 from time import time
+import os
 
 app = Flask(__name__,
             static_url_path='/public/',
@@ -46,7 +47,7 @@ def offer():
 
 
 def main():
-    app.run(host='0.0.0.0', port='8000', debug=True)
+    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)), debug=True)
 
 
 if __name__ == '__main__':

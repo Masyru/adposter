@@ -1,8 +1,8 @@
 import React from "react";
+import Loading from "./Loading";
 import '../styles/Dashboard.css';
 import '../styles/Card.css';
 import '../styles/Modal.css'
-import { Modal, Button, OverlayTrigger, Popover, Tooltip } from "react-bootstrap";
 
 
 class Info extends React.Component{
@@ -83,7 +83,7 @@ class Card extends React.Component{
 }
 
 
-export default class Account extends React.Component{
+export default class Dashboard extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
@@ -104,13 +104,15 @@ export default class Account extends React.Component{
     render() {
         return(
             <>
-                <div className="create-offer-btn">
+                <Loading>
+                    <div className="create-offer-btn">
                     <a href="/offer"><i className="fa fa-plus-circle" aria-hidden="true"></i> Создать объявление</a>
-                </div>
-                <Card data={this.state.data} setInfo={(data) => this.setState({showInfo: data})}/>
-                {
-                    !this.state.showInfo || <Info data={this.state.showInfo} onHide={() => this.setState({showInfo: null})}/>
-                }
+                    </div>
+                    <Card data={this.state.data} setInfo={(data) => this.setState({showInfo: data})}/>
+                    {
+                        !this.state.showInfo || <Info data={this.state.showInfo} onHide={() => this.setState({showInfo: null})}/>
+                    }
+                </Loading>
             </>
         )
     }

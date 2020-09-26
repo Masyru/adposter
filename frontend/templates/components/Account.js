@@ -1,5 +1,6 @@
 import React from "react";
 import '../styles/Account.css';
+import Loading from "./Loading";
 
 class Profile extends React.Component{
     render(){
@@ -24,9 +25,11 @@ export default class Account extends React.Component{
     render() {
         return(
             <>
-                <Profile name={'Farpost'} />
-                <Profile name={'Avito'} />
-                <Profile name={'Japancars'} />
+                <Loading>
+                    <Profile name={'Farpost'} />
+                    <Profile name={'Avito'} />
+                    <Profile name={'Japancars'} />
+                </Loading>
             </>
         )
     }

@@ -1,6 +1,7 @@
 import React from "react";
 import '../styles/Dashboard.css';
 import '../styles/Library.css';
+import Loading from "./Loading";
 
 class Modal extends React.Component{
     render() {
@@ -96,17 +97,18 @@ export default class Library extends React.Component{
     render() {
         return(
             <>
-                <div className="create-offer-btn">
-                    <a href="/offer"><i className="fa fa-plus-circle" aria-hidden="true"></i> Загрузить фото</a>
-                </div>
-                <Gallery>
-                    <div className={'row'}>
-                        {
-                            this.state.data.map((obj, i) => <PhotoCard data={obj} key={i} onClick={() => this.setState({photo: data})}/>)
-                        }
+                <Loading>
+                    <div className="create-offer-btn">
+                        <a href="/offer"><i className="fa fa-plus-circle" aria-hidden="true"></i> Загрузить фото</a>
                     </div>
-                </Gallery>
-
+                    <Gallery>
+                        <div className={'row'}>
+                            {
+                                this.state.data.map((obj, i) => <PhotoCard data={obj} key={i} onClick={() => this.setState({photo: data})}/>)
+                            }
+                        </div>
+                    </Gallery>
+                </Loading>
             </>
         )
     }

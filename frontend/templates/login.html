@@ -40,5 +40,48 @@
                 </form>
         </div>
     </div>
+
+    <script type="text/javascript">
+        function getCookie(name) {
+              let matches = document.cookie.match(new RegExp(
+                "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+              ));
+              return matches ? decodeURIComponent(matches[1]) : undefined;
+        }
+
+        hash_session = getCookie('hash_session');
+        if(hash_session){
+            let redirect = false;
+            fetch('/check_cookie/' + hash_session,
+                {
+                    method: 'get',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        "Access-Control-Allow-Origin": "*",
+                        "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept"
+                    },
+                })
+                .then(function (response) {
+                    if (response.status !== 200) {
+                        console.log('Looks like there was a problem. Status Code: ' + response.status);
+                        if (response.status === 500) {
+                            console.log("Status: 500")
+                        }
+                        return;
+                    }
+                    // Examine the text in the response
+                    response.json()
+                        .then(function (data) {
+                            redirect = data
+                        });
+                })
+                .catch(function (error) {
+                    console.log('error: ', error);
+                });
+            if(redirect){
+                window.location.href = '/'
+            }
+        }
+    </script>
 </body>
 </html>

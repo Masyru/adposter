@@ -1,10 +1,16 @@
 import React from "react";
 
+export function sleep(ms) {
+    ms += new Date().getTime();
+    while (new Date() < ms){}
+}
+
 export default class Loading extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
-            cookie: null
+            cookie: null,
+            loading: true,
         };
 
         this.getCookie = this.getCookie.bind(this);
@@ -12,23 +18,24 @@ export default class Loading extends React.Component{
     }
 
     componentDidMount() {
-        this.getCookie('cookie');
-        if(this.state.cookie !== ''){
-            this.sendCookieToServer();
+        const cookie = this.getCookie('token');
+        sleep(2000);
+        if (cookie !== '' && cookie !== null && cookie !== undefined) {
+            this.sendCookieToServer(cookie);
         }
     }
 
 
-    sendCookieToServer(){
-        let cookie = this.state.cookie;
-        fetch('/check_cookie/' + cookie,
-       {
-                method: 'get',
-                headers: {
-                'Content-Type':'application/json',
-                "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept"
-            },
+
+    sendCookieToServer(param){
+        const _this = this;
+        fetch('/check_cookie/' + param,
+   {
+            method: 'get',
+            headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept",
+        },
         })
         .then(
         function(response) {
@@ -44,13 +51,19 @@ export default class Loading extends React.Component{
             response.json().then(
                 function(data) {
                     // Doing something with response
-                    console.log(data);
-
+                    if (data){
+                        _this.setState({
+                            loading: false,
+                        });
+                    } else {
+                        window.location.href = '/';
+                    }
                 });
 
         }).catch(function (error) {
                 console.log('error: ', error);
         })
+
     }
 
 
@@ -58,16 +71,29 @@ export default class Loading extends React.Component{
         let matches = document.cookie.match(new RegExp(
         "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
         ));
-        let res =  matches ? decodeURIComponent(matches[1]) : undefined;
-        if(res === undefined){
-            this.setState({cookie: ''})
-        } else {
-            this.setState({cookie: res})
-        }
+        return matches ? decodeURIComponent(matches[1]) : undefined
     }
 
 
     render() {
-        return(this.props.children)
+        let loading =
+            <div style={{
+                width: '100vw',
+                height: '100vh',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center',
+                zIndex: '9999',
+                position: 'absolute',
+                top: '0',
+                left: '0',
+                background: '#fff',
+                color: '#0d0d0d',
+            }}>
+                Загрузка...
+            </div>;
+
+        return(this.state.loading ? loading : this.props.children)
     }
 }

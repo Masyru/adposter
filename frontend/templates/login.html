@@ -49,14 +49,12 @@
               return matches ? decodeURIComponent(matches[1]) : undefined;
         }
 
-        hash_session = getCookie('hash_session');
+        hash_session = getCookie('token');
         if(hash_session){
-            let redirect = false;
             fetch('/check_cookie/' + hash_session,
                 {
                     method: 'get',
                     headers: {
-                        'Content-Type': 'application/json',
                         "Access-Control-Allow-Origin": "*",
                         "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept"
                     },
@@ -72,15 +70,14 @@
                     // Examine the text in the response
                     response.json()
                         .then(function (data) {
-                            redirect = data
+                            if (data){
+                                window.location.href = '/dashboard'
+                            }
                         });
                 })
                 .catch(function (error) {
                     console.log('error: ', error);
                 });
-            if(redirect){
-                window.location.href = '/'
-            }
         }
     </script>
 </body>

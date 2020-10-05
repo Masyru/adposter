@@ -5,6 +5,13 @@ export function sleep(ms) {
     while (new Date() < ms){}
 }
 
+export function getCookie(name) {
+    let matches = document.cookie.match(new RegExp(
+    "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+    ));
+    return matches ? decodeURIComponent(matches[1]) : undefined
+}
+
 export default class Loading extends React.Component{
     constructor(props) {
         super(props);
@@ -13,25 +20,19 @@ export default class Loading extends React.Component{
             loading: true,
         };
 
-        this.getCookie = this.getCookie.bind(this);
         this.sendCookieToServer = this.sendCookieToServer.bind(this);
     }
 
     componentDidMount() {
-        const cookie = this.getCookie('token');
-        sleep(2000);
-        if (cookie !== '' && cookie !== null && cookie !== undefined) {
-            this.sendCookieToServer(cookie);
-        }
+        this.sendCookieToServer();
     }
 
 
-
-    sendCookieToServer(param){
+    sendCookieToServer(){
         const _this = this;
-        fetch('/check_cookie/' + param,
+        fetch('/check_cookie',
    {
-            method: 'get',
+            method: 'GET',
             headers: {
             "Access-Control-Allow-Origin": "*",
             "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept",
@@ -42,6 +43,7 @@ export default class Loading extends React.Component{
             // Define fetch errors
             if (response.status !== 200) {
                 console.log('Looks like there was a problem. Status Code: ' + response.status);
+                return;
             }
             if(response.status === 500){
                 console.log("Status: 500");
@@ -64,14 +66,6 @@ export default class Loading extends React.Component{
                 console.log('error: ', error);
         })
 
-    }
-
-
-    getCookie(name) {
-        let matches = document.cookie.match(new RegExp(
-        "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
-        ));
-        return matches ? decodeURIComponent(matches[1]) : undefined
     }
 
 

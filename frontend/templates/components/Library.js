@@ -1,27 +1,38 @@
 import React from "react";
 import '../styles/Dashboard.css';
 import '../styles/Library.css';
+import '../styles/Modal.css';
 import Loading from "./Loading";
+import Upload from "./Upload";
 
-class Modal extends React.Component{
+export class Modal extends React.Component{
     render() {
         let modal =
-            <div className='photo-modal'>
-                <div className="photo-modal__picture" style={{
-                    backgroundColor: '#eaeaea',
-                    backgroundImage: `/public/uploads${this.props.data.url}`,
-                    backgroundSize: 'cover cover',
-                    backgroundPosition: 'center center'
-                }}>
-                </div>
-                <div className="photo-modal__description">
-                    <span className="date">
-                        Дата загрузки: {this.props.data.date}
-                    </span>
-                    <br />
-                    <span className="where">
-                        Дата загрузки: {this.props.data.offers.join(', ')}
-                    </span>
+            <div className={`_modal`}  onClick={this.props.onHide}>
+                <div className="_modal__dialog" onClick={event => event.stopPropagation()}>
+                    {
+                        this.props.mode ?
+                            <Upload />
+                            :
+                            <div className='photo-modal'>
+                                <div className="photo-modal__picture" style={{
+                                    backgroundColor: '#eaeaea',
+                                    backgroundImage: `/public/uploads${this.props.data.url}`,
+                                    backgroundSize: 'cover cover',
+                                    backgroundPosition: 'center center'
+                                }}>
+                                </div>
+                                <div className="photo-modal__description">
+                                    <span className="date">
+                                        Дата загрузки: {this.props.data.date}
+                                    </span>
+                                    <br />
+                                    <span className="where">
+                                        Дата загрузки: {this.props.data.offers.join(', ')}
+                                    </span>
+                                </div>
+                            </div>
+                    }
                 </div>
             </div>;
 
@@ -38,7 +49,7 @@ class PhotoCard extends React.Component{
                 backgroundSize: 'cover cover',
                 backgroundPosition: 'center center'
             }}>
-            </div>
+            </div>;
 
         return(photo)
     }
@@ -91,6 +102,7 @@ export default class Library extends React.Component{
                 }
             ],
             photo: null,
+            upload: false,
         }
     }
 
@@ -99,7 +111,7 @@ export default class Library extends React.Component{
             <>
                 <Loading>
                     <div className="create-offer-btn">
-                        <a href="/offer"><i className="fa fa-plus-circle" aria-hidden="true"></i> Загрузить фото</a>
+                        <a href="#upload_photo" onClick={() => this.setState({upload: true})}> <i className="fa fa-plus-circle" aria-hidden="true"></i> Загрузить фото </a>
                     </div>
                     <Gallery>
                         <div className={'row'}>
@@ -108,6 +120,18 @@ export default class Library extends React.Component{
                             }
                         </div>
                     </Gallery>
+                    {
+                        this.state.photo ?
+                            <Modal mode={0} data={this.state.photo} onHide={() => this.setState({photo: null})}/>
+                            :
+                            null
+                    }
+                    {
+                        this.state.upload ?
+                            <Modal mode={1} onHide={() => this.setState({upload: false})}/>
+                            :
+                            null
+                    }
                 </Loading>
             </>
         )

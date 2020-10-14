@@ -73,5 +73,94 @@ h2 {
     width: 99% !important;
 }
 
+/* Modal */
+._modal__dialog {
+    width: 800px;
+    height: 900px;
+    position: relative;
+}
+
+._modal__dialog header {
+    height: 40px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+._modal__dialog main {
+    height: 710px;
+    width: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+._modal__dialog button {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 50px;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 0;
+}
+
+._modal__dialog button:hover {
+    background-color: #1283ff;
+    transition: background-color .200ms linear;
+}
+
+.chooser-block {
+    width: 100%;
+    height: 100%;
+}
+
+.chooser-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.photo-block {
+    width: 180px;
+    height: 113px;
+    margin: 10px 10px;
+    display: flex;
+    position: relative;
+}
+
+.photo-block img {
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+}
+
+/* Divs */
+
+div#having {
+    width: 100%;
+    padding-left: 2%;
+}
+
+div#having span {
+    padding-left: 10px;
+}
+
+.photo-watcher {
+    display: flex;
+    width: 100%;
+}
+
+.photo-watcher__item {
+    width: 160px;
+    height: 100px;
+    margin: 10px;
+}
 
 

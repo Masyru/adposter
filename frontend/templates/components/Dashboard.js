@@ -18,18 +18,23 @@ class Info extends React.Component{
                     <main>
                         <div className="gallery">
                             {
-                                info.img.map((path, i) => <div key={i} className="photo" style={{
+                                info.photos.length ? info.photos.map((path, i) => <div key={i} className="photo" style={{
                                     backgroundImage: `url('/public/uploads/${path}')`,
                                     backgroundPosition: 'center center',
                                     backgroundSize: 'cover',
-                                }}/>)
+                                }}/>) : null
                             }
                         </div>
                         <div className="offer">
-                            <h6>Кол-во: {info.amount}</h6>
-                            <h2>{info.title}</h2>
+                            {
+                                info.amount && <h6>Кол-во: {info.amount}</h6>
+                            }
+                                <h2>{info.title}
+                            }</h2>
                             <p>{info.description}</p>
-                            <div className="views">Просмотров: {info.views}</div>
+                            {
+                                info.views && <div className="views">Просмотров: {info.views}</div>
+                            }
                             <br />
                             <span className="price">{info.price === 0 ? 'Договорная' : `${info.price} ₽`}</span>
                             <div className="offer-group-btn">
@@ -38,11 +43,11 @@ class Info extends React.Component{
                             </div>
                         </div>
                     </main>
-                    <footer>
-                        {
-                            info.links.map((link, i) => <a key={i} href={link[1]}>{link[0]}</a>)
-                        }
-                    </footer>
+                    {/*<footer>*/}
+                    {/*    {*/}
+                    {/*        info.links.map((link, i) => <a key={i} href={link[1]}>{link[0]}</a>)*/}
+                    {/*    }*/}
+                    {/*</footer>*/}
                 </div>
             </div>
 
@@ -60,7 +65,7 @@ class Card extends React.Component{
                     this.props.data.map((obj, i) =>
                         <div className="course" key={i} onClick={() => this.props.setInfo(obj)}>
                             <div className="course-preview" style={{
-                                backgroundImage: `url('/public/uploads/${obj.img[0]}')`,
+                                backgroundImage: `url('/public/uploads/${obj.photos.length && obj.photos[0]}')`,
                                 backgroundPosition: 'center center',
                                 backgroundSize: 'cover',
                             }}>
@@ -86,20 +91,63 @@ class Card extends React.Component{
 export default class Dashboard extends React.Component{
     constructor(props) {
         super(props);
+        this.timerId = null;
         this.state = {
-            data: [{
-                img: ['1.png'],
-                title: 'Кузов Land Cruiser 100, 105 правый руль 202 цвет, 2006г во Владивостоке',
-                description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-                price: 0,
-                amount: 7,
-                links: [['Farpost', 'https://www.farpost.ru'], ['Avito', "https://www.avito.ru"]],
-                views: 134,
-            }],
-            showInfo: null,
-        }
+            data: [],
+        };
+
+        this.fetchData = this.fetchData.bind(this);
     }
 
+    componentDidMount() {
+        this.fetchData();
+        this.timerId = setInterval(this.fetchData, 60 * 1000)
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.timerId);
+    }
+
+    fetchData(){
+        const _this = this;
+        fetch('/dashboard/?fetch=True',
+       {
+                method: 'GET',
+                headers: {
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept",
+            },
+        })
+        .then(
+            function(response) {
+            // Define fetch errors
+            if (response.status !== 200) {
+                console.log('Looks like there was a problem. Status Code: ' + response.status);
+                return;
+            }
+            if(response.status === 500){
+                console.log("Status: 500");
+                return;
+            }
+            // Un-jsonify data
+            response.json().then(
+                function(data) {
+                    // Doing something with response
+                    console.log(data);
+                    if (data.length){
+                        _this.setState({
+                            data: data,
+                        });
+                    } else {
+                        _this.setState({
+                            data: [],
+                        })
+                    }
+                });
+        }).catch(function (error) {
+            console.log('error: ', error);
+        })
+    }
 
     render() {
         return(

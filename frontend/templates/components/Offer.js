@@ -6,13 +6,38 @@ import PhotoChooser from "./Photo-chooser";
 import { setHideBodyOverflow } from "./Utils";
 
 
+const _default = {
+    auto_type: 'автомобиль',
+    name: '',
+    firm: '',
+    model: '',
+    description: '',
+    year: '',
+    volume: '',
+    fuel_type: 'бенз.',
+    transmission: 'авт.',
+    probegrf: '',
+    probeg: '',
+    rul: 'Прав.',
+    privod: 'передний',
+    pts_record: 'с документами',
+    used: 'подержанный',
+    price: '',
+    currency: 'RUB',
+    s_presence: 'в наличии',
+    location: '',
+
+    photos: [],
+    showPhotoChooser: false,
+};
+
+
 class Car extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
-            fetchedModels: [],
             auto_type: 'автомобиль',
-            name: '',
+            title: '',
             firm: '',
             model: '',
             description: '',
@@ -22,10 +47,10 @@ class Car extends React.Component{
             transmission: 'авт.',
             probegrf: '',
             probeg: '',
-            rul: '',
+            rul: 'Прав.',
             privod: 'передний',
             pts_record: 'с документами',
-            used: '',
+            used: 'подержанный',
             price: '',
             currency: 'RUB',
             s_presence: 'в наличии',
@@ -36,12 +61,71 @@ class Car extends React.Component{
         };
 
         this.updatePhotoSet = this.updatePhotoSet.bind(this);
+        this.sendOffer = this.sendOffer.bind(this);
     }
 
     updatePhotoSet(arr){
         this.setState({
             photos: arr
         })
+    }
+
+    sendOffer(){
+        const _this = this,
+              st = this.state;
+        if(
+            st.title !== '' &&
+            st.firm !== '' &&
+            st.model !== '' &&
+            st.description !== '' &&
+            st.year !== '' &&
+            st.volume !== '' &&
+            st.price !== '' &&
+            st.location !== ''
+        ){
+
+            let data = {
+                ...st
+            };
+            data.showPhotoChooser = undefined;
+
+            fetch('/offer',
+       {
+                method: 'POST',
+                headers: {
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept",
+                },
+                body: JSON.stringify(data)
+            })
+            .then(
+            function(response) {
+                // Define fetch errors
+                if (response.status !== 200) {
+                    console.log('Looks like there was a problem. Status Code: ' + response.status);
+                    return;
+                }
+                if(response.status === 500){
+                    console.log("Status: 500");
+                    return;
+                }
+                // Un-jsonify data
+                response.json().then(
+                    function(data) {
+                        // Doing something with response
+                        if (data){
+                            _this.setState({
+                                loading: false,
+                            });
+                        } else {
+                            window.location.href = '/';
+                        }
+                    });
+
+            }).catch(function (error) {
+                    console.log('error: ', error);
+            })
+        }
     }
 
     render() {
@@ -69,8 +153,8 @@ class Car extends React.Component{
                             placeholder="Название объявления"
                             aria-label="title"
                             aria-describedby="basic-addon1"
-                            value={st.name}
-                            onChange={e => this.setState({name: e.target.value})}
+                            value={st.title}
+                            onChange={e => this.setState({title: e.target.value})}
                         />
 
                 </InputGroup>
@@ -263,7 +347,9 @@ class Car extends React.Component{
                         borderRight: 'none',
                         borderTopRightRadius: '0',
                         borderBottomRightRadius: '0',
-                    }}>Создать</Button>
+                    }}
+                        onClick={this.sendOffer}
+                    >Создать</Button>
                     <Button variant={'outline-danger'} style={{
                         width: '140px',
                         borderLeft: 'none',

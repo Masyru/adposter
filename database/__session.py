@@ -41,12 +41,36 @@ def global_init(db_file):
                         hashed_password STRING,
                         date            STRING
                     );""")
-        cur.execute("""INSERT INTO logins (
-                                   hashed_password
-                               )
-                               VALUES (
-                                   'pbkdf2:sha256:150000$7eUEvEXj$1d40e6deff918c55b01e10fef55afd5fb1a454f4329de175a1797d702b446cd1'
-                               );""")
+        cur.execute("""CREATE TABLE offers (
+                        id           INTEGER NOT NULL,
+                        firm         STRING  DEFAULT NULL,
+                        model        STRING  DEFAULT NULL,
+                        year         STRING  DEFAULT NULL,
+                        title        STRING  DEFAULT NULL,
+                        description  TEXT    DEFAULT NULL,
+                        type_offer   INT,
+                        rul          STRING  DEFAULT NULL,
+                        volume       INT     DEFAULT NULL,
+                        fuel_type    STRING  DEFAULT NULL,
+                        transmission STRING  DEFAULT NULL,
+                        probegrf     INT     DEFAULT (0),
+                        probeg       INT     DEFAULT (0),
+                        privod       STRING  DEFAULT NULL,
+                        pts_record   STRING  DEFAULT NULL,
+                        used         STRING  DEFAULT NULL,
+                        price        INT     DEFAULT (0),
+                        currency     STRING  DEFAULT ('RUB'),
+                        s_presence   STRING  DEFAULT ('в наличии'),
+                        location     STRING  DEFAULT ('Владивосток'),
+                        photos       STRING  DEFAULT NULL,
+                        date         STRING,
+                        PRIMARY KEY (
+                            id
+                        ),
+                        UNIQUE (
+                            id
+                        )
+                    );""")
         conn.commit()
         conn.close()
 

@@ -1,14 +1,17 @@
 from flask import Flask, render_template, flash, redirect, url_for, request, g, make_response, abort
 from werkzeug.utils import secure_filename
 from settings import UPLOADS, ALLOWED_EXTENSIONS
-from database.__all_modules import Login, Cookie
+from database.__all_modules import Login, Cookie, Offer
 from database import __session
 from database.json_worker import open_file_serialize, save_json_to_file
 from json import dumps, loads
 import datetime
 from time import time
 import os
+import sys
 
+# Define path to app
+sys.path.append(os.path.abspath(os.path.curdir))
 
 # Init app
 app = Flask(__name__,
@@ -18,7 +21,6 @@ app = Flask(__name__,
 app.config['UPLOAD_FOLDER'] = UPLOADS
 app.permanent_session_lifetime = datetime.timedelta(days=30)
 global_vars = open_file_serialize()
-print(global_vars)
 
 # Init db
 __session.global_init("./database/database.db")
@@ -62,9 +64,15 @@ def index():
         return abort(404)
 
 
-@app.route('/dashboard', methods=['GET', 'POST'])
+@app.route('/dashboard/', methods=['GET', 'POST'])
 def dashboard():
-    return render_template('index.html', title='Доска объявлений / AdPoster', path='/public/js/dashboard.js', uploader=False)
+    if request.method == 'GET':
+        fetch = bool(request.args.get('fetch'))
+        if fetch:
+            resp = Offer.get_auto(session)
+            return dumps(resp)
+        return render_template('index.html', title='Доска объявлений / AdPoster', path='/public/js/dashboard.js', uploader=False)
+
 
 
 @app.route('/library', methods=['GET'])
@@ -81,16 +89,22 @@ def account():
     return render_template('index.html', title='Учетные записи / AdPoster', path='/public/js/account.js', uploader=False)
 
 
-@app.route('/offer/<string:cookie>', methods=['GET'])
-def offer(cookie):
+@app.route('/offer', methods=['GET', 'POST'])
+def offer():
     if request.method == 'GET':
-        existed = Cookie.check_cookie(session, cookie)
-        if not existed:
-            return redirect(url_for('index'))
-        return render_template('offer.html')
+        existed = check_cookie(token=request.cookies.get('token'))
+        if existed:
+            return render_template('offer.html')
+    elif request.method == 'POST':
+        existed = check_cookie(token=request.cookies.get('token'))
+        if existed:
+            data = request.get_json(force=True)
+            Offer.add_auto(session, data)
+            return dumps(True)
+    return redirect(url_for('index'))
 
 
-@app.route('/upload', methods=['POST'])
+@app.route('/upload', methods=['POST', 'GET'])
 def upload():
     if request.method == 'POST':
         existed = check_cookie(request.cookies.get('token'))
@@ -110,6 +124,15 @@ def upload():
                 else:
                     return dumps(False)
             return redirect(url_for('library'))
+    elif request.method == 'GET':
+        existed = check_cookie(request.cookies.get('token'))
+        if existed:
+            response = os.listdir(UPLOADS)
+            response.sort(key=lambda x: int(x.split('.')[0]))
+            print(response)
+            return dumps(response)
+        else:
+            return dumps([])
     return abort(404)
 
 

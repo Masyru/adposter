@@ -17,18 +17,18 @@ export class Modal extends React.Component{
                             <div className='photo-modal'>
                                 <div className="photo-modal__picture" style={{
                                     backgroundColor: '#eaeaea',
-                                    backgroundImage: `/public/uploads${this.props.data.url}`,
+                                    backgroundImage: `/public/uploads/${this.props.data.url}`,
                                     backgroundSize: 'cover cover',
                                     backgroundPosition: 'center center'
                                 }}>
                                 </div>
                                 <div className="photo-modal__description">
                                     <span className="date">
-                                        Дата загрузки: {this.props.data.date}
+                                        Дата загрузки: {this.props.data.datetime}
                                     </span>
                                     <br />
                                     <span className="where">
-                                        Дата загрузки: {this.props.data.offers.join(', ')}
+                                        Объявления: {this.props.data.offers.join(', ')}
                                     </span>
                                 </div>
                             </div>
@@ -42,14 +42,16 @@ export class Modal extends React.Component{
 
 class PhotoCard extends React.Component{
     render() {
+        console.log(this.props.data.url);
+
         let photo =
-            <div className='photo col-xl-2 col-lg-2 col-md-4 col-sm-12 ' style={{
-                backgroundColor: '#eaeaea',
-                backgroundImage: `/public/uploads${this.props.data.url}`,
-                backgroundSize: 'cover cover',
-                backgroundPosition: 'center center'
-            }}>
-            </div>;
+            <div className='photo col-xl-2 col-lg-2 col-md-4 col-sm-12 '
+                 style={{
+                    backgroundColor: '#eaeaea',
+                    backgroundImage: `url(/public/uploads/${this.props.data.url})`,
+                    backgroundSize: 'cover cover',
+                    backgroundPosition: 'center center'
+            }}/>;
 
         return(photo)
     }
@@ -69,41 +71,57 @@ export default class Library extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
-            data: [
-                {
-                    url: '1.png',
-                    date: '1212121212',
-                    offers: ['Название объявления', 'Название объявления №2']
-                },
-                {
-                    url: '1.png',
-                    date: '1212121212',
-                    offers: ['Название объявления', 'Название объявления №2']
-                },
-                {
-                    url: '1.png',
-                    date: '1212121212',
-                    offers: ['Название объявления', 'Название объявления №2']
-                },
-                {
-                    url: '1.png',
-                    date: '1212121212',
-                    offers: ['Название объявления', 'Название объявления №2']
-                },
-                {
-                    url: '1.png',
-                    date: '1212121212',
-                    offers: ['Название объявления', 'Название объявления №2']
-                },
-                {
-                    url: '1.png',
-                    date: '1212121212',
-                    offers: ['Название объявления', 'Название объявления №2']
-                }
-            ],
+            data: [],
             photo: null,
             upload: false,
         }
+
+        this.fetchPhotos = this.fetchPhotos.bind(this);
+    }
+
+    componentDidMount() {
+        this.fetchPhotos();
+    }
+
+    fetchPhotos(){
+        const _this = this;
+        fetch('/upload/?obj=true',
+   {
+            method: 'GET',
+            headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept",
+        },
+        })
+        .then(
+        function(response) {
+            // Define fetch errors
+            if (response.status !== 200) {
+                console.log('Looks like there was a problem. Status Code: ' + response.status);
+                return;
+            }
+            if(response.status === 500){
+                console.log("Status: 500");
+                return;
+            }
+            // Un-jsonify data
+            response.json().then(
+                function(data) {
+                    // Doing something with response
+                    if (data.length){
+                        _this.setState({
+                            data: data,
+                        });
+                    } else {
+                        _this.setState({
+                            data: [],
+                        })
+                    }
+                });
+
+        }).catch(function (error) {
+                console.log('error: ', error);
+        })
     }
 
     render() {

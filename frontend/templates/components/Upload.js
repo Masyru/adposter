@@ -17,7 +17,6 @@ export default class Upload extends React.Component{
     }
 
     componentDidMount() {
-        console.log('Binding');
         this.bindToButtons();
     }
 
@@ -126,7 +125,6 @@ export default class Upload extends React.Component{
 
         //init
         $(document).ready(function(){
-            console.log('It binds');
             $('.fileUploader').uploader({
                 MessageAreaText: "Файл не выбран. Пожалуйста, выберите файл."
             });

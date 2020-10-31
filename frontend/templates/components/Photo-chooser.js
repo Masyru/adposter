@@ -1,102 +1,38 @@
 import React from "react";
 import '../styles/Modal.css';
 import '../styles/Offer.css';
+import { Row } from 'react-bootstrap';
 import { setHideBodyOverflow } from "./Utils";
 
 class Cards extends React.Component{
     render() {
-        let html_arr = [];
-        let count = 1;
         const props = this.props;
 
         return (
             <div className='chooser-block'>
-                {
-                    props.data.map((obj, i, array) => {
-                        if ((i + 1) % 4 === 0) {
-                            count += 5;
-                            let cur_arr = array.slice(i - 3, i + 1);
-                            let row =
-                                <div className="chooser-row" key={count}>
-                                    <div
-                                        key={count + 1}
-                                        className="photo-block"
-                                        style={{
-                                            backgroundColor: '#eaeaea',
-                                            backgroundImage: `url('/public/uploads/${cur_arr[0]}')`,
-                                            backgroundSize: 'cover cover',
-                                            backgroundPosition: 'center center',
-                                        }}
-                                        onClick={() => props.countCard(cur_arr[0])}>
-                                        {
-                                            props.chosen_img.includes(cur_arr[0]) ?
-                                                <img src="/public/img/check.svg" alt="Выбран"/>
-                                                :
-                                                <img src="/public/img/circle-shape.svg" alt="Не выбран"/>
-                                        }
-                                    </div>
-                                    <div
-                                        key={count + 2}
-                                        className="photo-block"
-                                        style={{
-                                            backgroundColor: '#eaeaea',
-                                            backgroundImage: `url('/public/uploads/${cur_arr[1]}')`,
-                                            backgroundSize: 'cover cover',
-                                            backgroundPosition: 'center center',
-                                        }}
-                                        onClick={() => props.countCard(cur_arr[1])}>
-                                        {
-                                            props.chosen_img.includes(cur_arr[1]) ?
-                                                <img src="/public/img/check.svg" alt="Выбран"/>
-                                                :
-                                                <img src="/public/img/circle-shape.svg" alt="Не выбран"/>
-                                        }
-                                    </div>
-                                    <div
-                                        key={count + 3}
-                                        className="photo-block"
-                                        style={{
-                                            backgroundColor: '#eaeaea',
-                                            backgroundImage: `url('/public/uploads/${cur_arr[2]}')`,
-                                            backgroundSize: 'cover cover',
-                                            backgroundPosition: 'center center',
-                                        }}
-                                        onClick={() => props.countCard(cur_arr[2])}>
-                                        {
-                                            props.chosen_img.includes(cur_arr[2]) ?
-                                                <img src="/public/img/check.svg" alt="Выбран"/>
-                                                :
-                                                <img src="/public/img/circle-shape.svg" alt="Не выбран"/>
-                                        }
-                                    </div>
-                                    <div
-                                        key={count + 4}
-                                        className="photo-block"
-                                        style={{
-                                            backgroundColor: '#eaeaea',
-                                            backgroundImage: `url('/public/uploads/${cur_arr[3]}')`,
-                                            backgroundSize: 'cover cover',
-                                            backgroundPosition: 'center center',
-                                        }}
-                                        onClick={() => props.countCard(cur_arr[3])}>
-                                        {
-                                            props.chosen_img.includes(cur_arr[3]) ?
-                                                <img src="/public/img/check.svg" alt="Выбран"/>
-                                                :
-                                                <img src="/public/img/circle-shape.svg" alt="Не выбран"/>
-                                        }
-                                    </div>
-                                </div>;
-
-                            html_arr.push(row);
-
-                            if (i + 3 >= array.length) {
-                                return (html_arr);
-                            }
-
-                        }
-                    })
-                }
+                <Row>
+                    {
+                        props.data.map((obj, i) =>
+                            <div
+                                key={i}
+                                className="photo-block"
+                                style={{
+                                    backgroundColor: '#eaeaea',
+                                    backgroundImage: `url('/public/uploads/${obj}')`,
+                                    backgroundSize: 'cover cover',
+                                    backgroundPosition: 'center center',
+                                }}
+                                onClick={() => props.countCard(obj)}>
+                                {
+                                    props.chosen_img.includes(obj) ?
+                                        <img src="/public/img/check.svg" alt="Выбран"/>
+                                        :
+                                        <img src="/public/img/circle-shape.svg" alt="Не выбран"/>
+                                }
+                            </div>
+                        )
+                    }
+                </Row>
             </div>
         )
     }

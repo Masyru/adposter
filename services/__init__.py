@@ -24,22 +24,22 @@ class Avito(XmlCreator):
             print('<?xml version="1.0"?>\n<Ads formatVersion="3" target="Avito.ru></Ads>', file=file)
 
     @staticmethod
-    def add_ad(_id):
+    def add_ad(_id, data):
         ad_node = ET.Element('Ad')
         i = ET.SubElement(ad_node, 'Id')
         i.text = _id
         mail = ET.SubElement(ad_node, 'AllowEmail')
         mail.text = "Да"
-        # contact_number = ET.SubElement(ad_node, 'ContactPhone')
-        # contact_number.text = data['contact_number']
-        # location = ET.SubElement(ad_node, 'Address')
-        # location.text = "Россия, Владивосток, _____, ____"
-        # description = ET.SubElement(ad_node, 'Description')
-        # description.text = data['description']
-        # description = ET.SubElement(ad_node, 'Description')
-        # description.text = data['description']
-        # price = ET.SubElement(ad_node, 'Price')
-        # price.text = str(data['price'])
+        contact_number = ET.SubElement(ad_node, 'ContactPhone')
+        contact_number.text = data['contact_number']
+        location = ET.SubElement(ad_node, 'Address')
+        location.text = "Россия, Владивосток, улица Сабанеева 14в, 42"
+        description = ET.SubElement(ad_node, 'Description')
+        description.text = data['description']
+        description = ET.SubElement(ad_node, 'Description')
+        description.text = data['description']
+        price = ET.SubElement(ad_node, 'Price')
+        price.text = str(data['price'])
         ET.dump(ad_node)
 
     

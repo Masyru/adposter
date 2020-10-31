@@ -3,9 +3,6 @@
     height: 100%;
     padding: 20px;
     overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
 }
 
 
@@ -22,4 +19,3 @@
     border: 2px solid rgba(127, 127, 127, 0.2);
     transition: border 200ms ease;
 }
-

@@ -16,6 +16,14 @@ class Login(SqlAlchemyBase):
     date = sqlalchemy.Column(sqlalchemy.String, default=datetime.datetime.now)
 
     @staticmethod
+    def add_account(session: Session, login, password) -> None:
+        a = Login()
+        a.login = login
+        a.hashed_password = generate_password_hash(password)
+        session.add(a)
+        session.commit()
+
+    @staticmethod
     def check_login(session: Session, login, password) -> bool:
         account = session.query(Login).filter(Login.login == login).first()
         return check_password_hash(account.hashed_password, password)
@@ -150,6 +158,14 @@ class Offer(SqlAlchemyBase):
             })
         resp.sort(key=lambda x: int(x['created_date']))
         return list(resp)
+
+    @staticmethod
+    def get_titles_via_image(session, image):
+        o = session.query(Offer).filter(image in str(Offer.photos).split(',')).all()
+        if o is None:
+            return []
+        resp = [obj.title for obj in o]
+        return resp
 
     @staticmethod
     def delete_offer(session, _id):

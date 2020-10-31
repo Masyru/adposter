@@ -1,12 +1,12 @@
-from flask import Flask, render_template, flash, redirect, url_for, request, g, make_response, abort
-from werkzeug.utils import secure_filename
+import time
+
+from flask import Flask, render_template, redirect, url_for, request, abort
 from settings import UPLOADS, ALLOWED_EXTENSIONS
 from database.__all_modules import Login, Cookie, Offer
 from database import __session
 from database.json_worker import open_file_serialize, save_json_to_file
-from json import dumps, loads
+from json import dumps
 import datetime
-from time import time
 import os
 import sys
 
@@ -104,20 +104,23 @@ def offer():
     return redirect(url_for('index'))
 
 
-@app.route('/upload', methods=['POST', 'GET'])
+@app.route('/upload/', methods=['POST', 'GET'])
 def upload():
     if request.method == 'POST':
         existed = check_cookie(request.cookies.get('token'))
         if existed:
             files = request.files.getlist("file")
+            excludes = []
             for file in files:
-                print(file)
                 if file and allowed_file(file.filename):
                     try:
-                        filename = f"{len(os.listdir(UPLOADS)) + 1}.{file.filename.rsplit('.', 1)[1]}"
+                        if file.filename in excludes:
+                            continue
+                        filename = f"{time.time()}.{file.filename.rsplit('.', 1)[1]}"
                         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
                         global_vars[str(request.cookies.get('token'))] = True
                         save_json_to_file(global_vars)
+                        excludes.append(file.filename)
                     except Exception as err:
                         print(err)
                         continue
@@ -127,9 +130,17 @@ def upload():
     elif request.method == 'GET':
         existed = check_cookie(request.cookies.get('token'))
         if existed:
-            response = os.listdir(UPLOADS)
-            response.sort(key=lambda x: int(x.split('.')[0]))
-            print(response)
+            if request.args.get('obj'):
+                response = list()
+                for i in os.listdir(UPLOADS):
+                    response.append({
+                        "url": i,
+                        "datetime": i.split('.')[0],
+                        "offers": Offer.get_titles_via_image(session, i),
+                    })
+            else:
+                response = os.listdir(UPLOADS)
+                response.sort(key=lambda x: int(x.split('.')[0]))
             return dumps(response)
         else:
             return dumps([])

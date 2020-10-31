@@ -5,6 +5,313 @@ import { InputGroup, FormControl, Button, ButtonGroup,
 import PhotoChooser from "./Photo-chooser";
 import { setHideBodyOverflow } from "./Utils";
 
+const __default = {
+    title: '',
+    model: '',
+    firm: '',
+    kuzov: '',
+    engine: '',
+    dvs: '',
+    LR: 'Право',
+    UD: 'Верх',
+    FB: 'Перед',
+    oem: '',
+    producer: '',
+    description: '',
+    s_presence: 'в наличии',
+    price: '',
+
+    photos: [],
+    showPhotoChooser: false,
+}
+
+
+class Part extends React.Component{
+    constructor(props) {
+        super(props);
+        this.state = {
+            title: '',
+            model: '',
+            firm: '',
+            kuzov: '',
+            engine: '',
+            dvs: '',
+            LR: 'Право',
+            UD: 'Верх',
+            FB: 'Перед',
+            oem: '',
+            producer: '',
+            description: '',
+            s_presence: 'в наличии',
+            price: '',
+
+            photos: [],
+            showPhotoChooser: false,
+        }
+
+        this.updatePhotoSet = this.updatePhotoSet.bind(this);
+        this.sendOffer = this.sendOffer.bind(this);
+    }
+
+    updatePhotoSet(arr){
+        this.setState({
+            photos: arr
+        })
+    }
+
+    sendOffer(){
+        const _this = this,
+              st = this.state;
+        if(
+            st.price !== ''
+        ){
+
+            let data = {
+                ...st,
+                state: '2',
+            };
+            data.showPhotoChooser = undefined;
+
+            fetch('/offer',
+       {
+                method: 'POST',
+                headers: {
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept",
+                },
+                body: JSON.stringify(data)
+            })
+            .then(
+            function(response) {
+                // Define fetch errors
+                if (response.status !== 200) {
+                    console.log('Looks like there was a problem. Status Code: ' + response.status);
+                    return;
+                }
+                if(response.status === 500){
+                    console.log("Status: 500");
+                    return;
+                }
+                // Un-jsonify data
+                response.json().then(
+                    function(data) {
+                        // Doing something with response
+                        if (data){
+                            _this.setState({
+                                loading: false,
+                            });
+                            _this.setState(__default)
+                        } else {
+                            window.location.href = '/';
+                        }
+                    });
+
+            }).catch(function (error) {
+                    console.log('error: ', error);
+            })
+        }
+    }
+
+    render(){
+        const st = this.state
+
+        let part =
+            <div style={{
+                width: '100%',
+                height: '100%',
+                display: this.props.show ? 'block' : 'none'
+            }}>
+
+                {/*<label htmlFor="f" className={'mt-3'}>Вид: </label>*/}
+                {/*<select className="selectpicker mb-3" id={'f'} name={'f'}>*/}
+                {/*    {*/}
+                {/*        ['автомоби
+                ль', 'спец.техника'].map((obj, i) => <option key={i}>{obj}</option>)*/}
+                {/*    }*/}
+                {/*</select>*/}
+
+                <label htmlFor="title" className={'mt-3'}>Название запчасти: </label>
+                <select className="selectpicker mb-3" id={'title'} name={'title'}>
+                    {
+                        ['Берутся из списка, который вышлют при добавлении на Japancars'].map((obj, i) => <option key={i} onClick={() => this.setState({title: obj})}>{obj}</option>)
+                    }
+                </select>
+
+                <label htmlFor="firm" className={'mt-3'}>Фирма: </label>
+                <select className="selectpicker mb-3" id={'firm'} name={'firm'}>
+                    {
+                        ['Берутся из списка, который вышлют при добавлении на Japancars'].map((obj, i) => <option key={i} onClick={() => this.setState({firm: obj})}>{obj}</option>)
+                    }
+                </select>
+
+                <label htmlFor="model" className={'mt-3'}>Модель: </label>
+                <select className="selectpicker mb-3" id={'model'} name={'model'}>
+                    {
+                        ['Берутся из списка, который вышлют при добавлении на Japancars'].map((obj, i) => <option key={i} onClick={() => this.setState({model: obj})}>{obj}</option>)
+                    }
+                </select>
+
+                <label htmlFor="used" className={'mt-3'}>Состояние запчасти:: </label>
+                <select className="selectpicker mb-3" id={'used'} name={'used'}>
+                    {
+                        ['новая', 'контрактная'].map((obj, i) => <option key={i} onClick={() => this.setState({used: obj})}>{obj}</option>)
+                    }
+                </select>
+
+                <InputGroup className='mb-3' style={{
+                    width: '100%'
+                }}>
+                    <FormControl
+                        title={'Если нет, то оставить поле пустым'}
+                        placeholder="Номер кузова"
+                        aria-describedby="basic-addon3"
+                        value={st.kuzov }
+                        onChange={e => this.setState({kuzov : e.target.value})}
+                    />
+                    <FormControl
+                        title={'Если нет, то оставить поле пустым'}
+                        placeholder="Номер двигателя"
+                        aria-describedby="basic-addon3"
+                        value={st.engine}
+                        onChange={e => this.setState({engine : e.target.value})}
+                    />
+                </InputGroup>
+
+                <InputGroup className='mb-3' style={{
+                    width: '100%'
+                }}>
+                    <FormControl
+                        title={'Если нет, то оставить поле пустым'}
+                        placeholder="Номер оптики, двс/артикул запчасти"
+                        aria-describedby="basic-addon3"
+                        value={st.dvs}
+                        onChange={e => this.setState({dvs : e.target.value})}
+                    />
+                </InputGroup>
+
+                <label className={'mt-3'}>Положение запчасти:</label>
+                <br />
+                <select className="selectpicker mb-3 col-4">
+                    {
+                        ['Право', 'Лево', '-'].map((obj, i) => <option key={i} onClick={() => this.setState({LR: obj})}>{obj}</option>)
+                    }
+                </select>
+                <select className="selectpicker mb-3 col-4">
+                    {
+                        ['Верх', 'Низ', '-'].map((obj, i) => <option key={i} onClick={() => this.setState({UD: obj})}>{obj}</option>)
+                    }
+                </select>
+                <select className="selectpicker mb-3 col-4">
+                    {
+                        ['Перед', 'Зад', '-'].map((obj, i) => <option key={i} onClick={() => this.setState({FB: obj})}>{obj}</option>)
+                    }
+                </select>
+
+                <InputGroup className='my-3' style={{
+                    width: '100%'
+                }}>
+                    <FormControl
+                        title={'Если нет, то оставить поле пустым'}
+                        placeholder="Номер OEM"
+                        aria-describedby="basic-addon3"
+                        value={st.oem}
+                        onChange={e => this.setState({oem : e.target.value})}
+                    />
+                </InputGroup>
+
+                <InputGroup className='mb-3' style={{
+                    width: '100%'
+                }}>
+                    <FormControl
+                        title={'KYB, 555, TADASHI...'}
+                        placeholder="Производитель запчасти"
+                        aria-describedby="basic-addon3"
+                        value={st.producer}
+                        onChange={e => this.setState({producer : e.target.value})}
+                    />
+                </InputGroup>
+
+                <InputGroup className="mb-3" style={{
+                    width: '100%'
+                }}>
+                    <FormControl
+                        placeholder="Описание"
+                        aria-label="description"
+                        aria-describedby="textarea"
+                        as='textarea'
+                        rows={'7'}
+                        value={st.description}
+                        onChange={e => this.setState({description: e.target.value})}
+                    />
+                </InputGroup>
+
+                <label htmlFor="s_presence">Статус: </label>
+                <select className="selectpicker mb-3" id={'s_presence'} name={'s_presence'}>
+                    {
+                        ['в наличии', 'под заказ', 'в пути'].map((obj, i) => <option key={i} onClick={() => this.setState({s_presence: obj})}>{obj}</option>)
+                    }
+                </select>
+
+                <InputGroup className='my-3' style={{
+                    width: '100%'
+                }}>
+                    <FormControl
+                        required
+                        placeholder="Цена"
+                        aria-describedby="basic-addon3"
+                        type={'number'}
+                        value={st.price }
+                        onChange={e => this.setState({price: e.target.value})}
+                    />
+                </InputGroup>
+
+                <InputGroup className="mb-2">
+                    <Button variant="primary" size="sm" block onClick={() => this.setState({showPhotoChooser: true})}>Добавить фото</Button>
+                </InputGroup>
+
+                <div className="photo-watcher mb-3">
+                    {
+                        this.state.photos.map((obj, i) =>
+                            <div className="photo-watcher__item" key={i} style={{
+                                backgroundColor: '#eaeaea',
+                                backgroundImage: `url('/public/uploads/${obj}')`,
+                                backgroundSize: 'cover cover',
+                                backgroundPosition: 'center center',
+                            }}>
+                            </div>
+                        )
+                    }
+                </div>
+
+                <InputGroup style={{
+                    width: '100%',
+                    margin: '150px 0 30px 0',
+                    display: 'flex'
+                }}>
+                    <Button variant={'warning'} style={{
+                        margin: 'auto 20px auto auto'
+                    }}
+                            onClick={this.sendOffer}
+                    >Создать</Button>
+                </InputGroup>
+
+                {
+                    this.state.showPhotoChooser &&
+                    <PhotoChooser
+                        onHide={() => {
+                            this.setState({showPhotoChooser: false});
+                            setHideBodyOverflow(false);
+                        }}
+                        setPhotos={(arr) => this.setState({photos: arr})}
+                    />
+                }
+
+            </div>;
+
+        return(part)
+    }
+}
+
 
 const _default = {
     auto_type: 'автомобиль',
@@ -85,7 +392,8 @@ class Car extends React.Component{
         ){
 
             let data = {
-                ...st
+                ...st,
+                state: '1',
             };
             data.showPhotoChooser = undefined;
 
@@ -117,6 +425,7 @@ class Car extends React.Component{
                             _this.setState({
                                 loading: false,
                             });
+                            _this.setState(_default)
                         } else {
                             window.location.href = '/';
                         }
@@ -221,7 +530,6 @@ class Car extends React.Component{
                     <FormControl
                         required
                         placeholder="Год выпуска"
-                        aria-label="price"
                         aria-describedby="basic-addon3"
                         type={'number'}
                         value={st.year}
@@ -250,7 +558,6 @@ class Car extends React.Component{
                     <FormControl
                         required
                         placeholder="Общий пробег"
-                        aria-label="price"
                         aria-describedby="basic-addon3"
                         type={'number'}
                         value={st.probeg}
@@ -339,23 +646,14 @@ class Car extends React.Component{
 
                 <InputGroup style={{
                     width: '100%',
-                    margin: '150px 0 30px 0'
+                    margin: '150px 0 30px 0',
+                    display: 'flex'
                 }}>
                     <Button variant={'warning'} style={{
-                        width: '140px',
-                        marginLeft: '65%',
-                        borderRight: 'none',
-                        borderTopRightRadius: '0',
-                        borderBottomRightRadius: '0',
+                        margin: 'auto 20px auto auto'
                     }}
                         onClick={this.sendOffer}
                     >Создать</Button>
-                    <Button variant={'outline-danger'} style={{
-                        width: '140px',
-                        borderLeft: 'none',
-                        borderTopLeftRadius: '0',
-                        borderBottomLeftRadius: '0',
-                    }}>Отмена</Button>
                 </InputGroup>
 
                 {
@@ -486,6 +784,7 @@ export default class Offer extends React.Component{
                     </InputGroup>
 
                     <Car show={this.state.mode === 1}/>
+                    <Part show={this.state.mode === 2}/>
 
                 </div>
             </>;

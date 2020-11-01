@@ -166,12 +166,27 @@ def delete_offer():
     existed = check_cookie(request.cookies.get('token'))
     if existed:
         try:
-            _id = int(request.args.get('id'))
-            Offer.delete_offer(session, _id)
+            if request.args.get("type") == 'offer':
+                _id = int(request.args.get('id'))
+                Offer.delete_offer(session, _id)
+            elif request.args.get("type") == 'image':
+                name = request.args.get('name')
+                if os.path.isfile(os.path.join(UPLOADS, name)):
+                    os.remove(os.path.join(UPLOADS, name))
+                    Offer.exclude_image(session, name)
             return dumps(True)
         except ValueError as err:
             return dumps(True)
     return abort(404)
+
+
+@app.route('/logout', methods=['GET'])
+def logout():
+    try:
+        Cookie.delete_cookie(session, request.cookies.get('token'))
+    except Exception as err:
+        print(err, '\n\n----------------------------> when logout')
+    return dumps(True)
 
 
 def main():

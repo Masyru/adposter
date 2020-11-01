@@ -142,3 +142,25 @@
     border: none;
     font-family: -apple-system, 'Roboto', sans-serif;
 }
+
+/* Photo description */
+.photo-modal {
+    width: 600px;
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.photo-modal__picture {
+    width: 400px;
+    height: 250px;
+    border: none;
+    border-radius: 3px;
+}
+
+.photo-modal__description {
+    width: 400px;
+    line-height: 2.0;
+}

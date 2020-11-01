@@ -15,7 +15,7 @@ class Info extends React.Component{
     deleteOffer(id){
         let conf = confirm('Вы уверены, что хотите удалить данное объявление?')
         if (conf){
-            fetch('/delete/?id=' + id,
+            fetch('/delete/?type=offer&id=' + id,
        {
                 method: 'GET',
                 headers: {

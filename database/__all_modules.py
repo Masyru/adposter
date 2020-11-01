@@ -64,8 +64,8 @@ class Cookie(SqlAlchemyBase):
         return True
 
     @staticmethod
-    def delete_cookie(session: Session, hash_string) -> bool:
-        c = session.query(Cookie).filter(Cookie.cookie == hash_string).first()
+    def delete_cookie(session: Session, token) -> bool:
+        c = session.query(Cookie).filter(Cookie.cookie == token).first()
         if c is None:
             return False
         session.delete(c)
@@ -227,11 +227,22 @@ class Offer(SqlAlchemyBase):
 
     @staticmethod
     def get_titles_via_image(session, image):
-        o = session.query(Offer).filter(image in str(Offer.photos).split(',')).all()
+        o = session.query(Offer).filter(image in str(Offer.photos).split(', ')).all()
         if o is None:
             return []
         resp = [obj.title for obj in o]
         return resp
+
+    @staticmethod
+    def exclude_image(session: Session, image: str) -> None:
+        try:
+            o = session.query(Offer).filter(image in str(Offer.photos).split(', ')).all()
+            for i in o:
+                i.photos = ', '.join(filter(lambda x: x != image, str(i.photos).split(', ')))
+                session.add(i)
+            session.commit()
+        except Exception as err:
+            print(err)
 
     @staticmethod
     def delete_offer(session, _id):

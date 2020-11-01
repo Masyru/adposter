@@ -47,6 +47,8 @@ export default class PhotoChooser extends React.Component{
             photos: null,
         };
 
+        this.amountPhoto = 15
+
         this.fetchPhotos = this.fetchPhotos.bind(this);
         this.countCard = this.countCard.bind(this);
     }
@@ -104,7 +106,7 @@ export default class PhotoChooser extends React.Component{
             this.setState({
                 chosen: arr,
             });
-        } else if (this.state.chosen.length === 4) {
+        } else if (this.state.chosen.length === this.amountPhoto) {
             this.setState({
                 warning: true,
             })
@@ -122,7 +124,7 @@ export default class PhotoChooser extends React.Component{
             <div className="_modal" onClick={this.props.onHide}>
                 <div className="_modal__dialog" onClick={e => e.stopPropagation()}>
                     <header>
-                        {this.state.chosen.length} / 4
+                        {this.state.chosen.length} из {this.amountPhoto}
                     </header>
                     <main>
                         {

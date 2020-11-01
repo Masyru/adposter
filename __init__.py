@@ -69,10 +69,15 @@ def dashboard():
     if request.method == 'GET':
         fetch = bool(request.args.get('fetch'))
         if fetch:
-            resp = Offer.get_auto(session)
-            return dumps(resp)
+            try:
+                resp = Offer.get_auto(session)
+                resp += Offer.get_parts(session)
+                resp.sort(key=lambda x: int(float(x['created_date'])))
+                return dumps(resp)
+            except Exception as err:
+                print('In the dashboard GET fetch=True:', err)
+                return dumps([])
         return render_template('index.html', title='Доска объявлений / AdPoster', path='/public/js/dashboard.js', uploader=False)
-
 
 
 @app.route('/library', methods=['GET'])
@@ -84,9 +89,10 @@ def library():
     return render_template('index.html', title='Библиотека фото / AdPoster', path='/public/js/library.js', success=False, uploader=True)
 
 
-@app.route('/account', methods=['GET'])
-def account():
-    return render_template('index.html', title='Учетные записи / AdPoster', path='/public/js/account.js', uploader=False)
+# @app.route('/account', methods=['GET'])
+# def account():
+#     return render_template('index.html', title='Учетные записи / AdPoster',
+#                                                                   path='/public/js/account.js', uploader=False)
 
 
 @app.route('/offer', methods=['GET', 'POST'])
@@ -96,11 +102,19 @@ def offer():
         if existed:
             return render_template('offer.html')
     elif request.method == 'POST':
-        existed = check_cookie(token=request.cookies.get('token'))
-        if existed:
-            data = request.get_json(force=True)
-            Offer.add_auto(session, data)
-            return dumps(True)
+        try:
+            existed = check_cookie(token=request.cookies.get('token'))
+            if existed:
+                data = request.get_json(force=True)
+                print(data['state'])
+                if int(data['state']) == 1:
+                    Offer.add_auto(session, data)
+                elif int(data['state']) == 2:
+                    Offer.add_part(session, data)
+                return dumps(True)
+        except Exception as err:
+            print("In offer POST:", err)
+            return dumps(False)
     return redirect(url_for('index'))
 
 
@@ -116,7 +130,7 @@ def upload():
                     try:
                         if file.filename in excludes:
                             continue
-                        filename = f"{time.time()}.{file.filename.rsplit('.', 1)[1]}"
+                        filename = f"{str(time.time()).split('.')[0]}.{file.filename.rsplit('.', 1)[1]}"
                         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
                         global_vars[str(request.cookies.get('token'))] = True
                         save_json_to_file(global_vars)
@@ -144,6 +158,19 @@ def upload():
             return dumps(response)
         else:
             return dumps([])
+    return abort(404)
+
+
+@app.route('/delete/', methods=['GET'])
+def delete_offer():
+    existed = check_cookie(request.cookies.get('token'))
+    if existed:
+        try:
+            _id = int(request.args.get('id'))
+            Offer.delete_offer(session, _id)
+            return dumps(True)
+        except ValueError as err:
+            return dumps(True)
     return abort(404)
 
 

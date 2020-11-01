@@ -133,7 +133,7 @@ export default class Upload extends React.Component{
 
     render() {
         const upload_form =
-            <form method="POST" className="file-uploader" action="/upload" encType="multipart/form-data">
+            <form method="POST" className="file-uploader" action="/upload/" encType="multipart/form-data">
                 <div className="file-uploader__message-area">
                     <p>Выберите файл(-ы) для загрузки</p>
                 </div>

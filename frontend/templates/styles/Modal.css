@@ -85,7 +85,7 @@
     color: #dddddd;
     background-color: #263238;
     border: none;
-    border-radius: 15px;
+    border-radius: 5px;
 }
 
 .info-modal__dialog main .offer-group-btn {
@@ -94,27 +94,27 @@
 
 .info-modal__dialog main .offer-group-btn .sold-offer {
     margin-left: auto;
-    background-color: #cddc39;
+    background-color: #FFEE58;
     border: none;
     border-radius: 3px;
     padding: 5px 10px;
 }
 
 .info-modal__dialog main .offer-group-btn .sold-offer:hover {
-    background-color: #afb42b;
+    background-color: #FDD835;
     transition: background-color .200ms ease;
 }
 
 .info-modal__dialog main .offer-group-btn .close-offer {
     margin: 0 20px 0 10px;
-    background-color: #f44336;
+    background-color: #FF5722;
     border: none;
     border-radius: 3px;
     padding: 5px 10px;
 }
 
 .info-modal__dialog main .offer-group-btn .close-offer:hover {
-    background-color: #d32f2f;
+    background-color: #E64A19;
     transition: background-color .200ms ease;
 }
 

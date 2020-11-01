@@ -6,6 +6,47 @@ import '../styles/Modal.css'
 
 
 class Info extends React.Component{
+    constructor(props) {
+        super(props);
+
+        this.deleteOffer = this.deleteOffer.bind(this);
+    }
+
+    deleteOffer(id){
+        let conf = confirm('Вы уверены, что хотите удалить данное объявление?')
+        if (conf){
+            fetch('/delete/?id=' + id,
+       {
+                method: 'GET',
+                headers: {
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept",
+            },
+            })
+            .then(
+                function(response) {
+                // Define fetch errors
+                if (response.status !== 200) {
+                    console.log('Looks like there was a problem. Status Code: ' + response.status);
+                    return;
+                }
+                if(response.status === 500){
+                    console.log("Status: 500");
+                    return;
+                }
+                // Un-jsonify data
+                response.json().then(
+                    function(data) {
+                        // Doing something with response
+                        window.location.href = '/dashboard/';
+                    });
+            }).catch(function (error) {
+                console.log('error: ', error);
+            })
+        }
+    }
+
+
     render() {
         let info = this.props.data;
 
@@ -18,28 +59,26 @@ class Info extends React.Component{
                     <main>
                         <div className="gallery">
                             {
-                                info.photos.length ? info.photos.map((path, i) => <div key={i} className="photo" style={{
-                                    backgroundImage: `url('/public/uploads/${path}')`,
-                                    backgroundPosition: 'center center',
-                                    backgroundSize: 'cover',
-                                }}/>) : null
+                                info.photos.length ? info.photos.map((path, i) =>
+                                         <div key={i} className="photo"
+                                              style={{
+                                                    backgroundImage: `url('/public/uploads/${path}')`,
+                                                    backgroundPosition: 'center center',
+                                                    backgroundSize: 'cover',
+                                    }}/>) : null
                             }
                         </div>
                         <div className="offer">
                             {
-                                info.amount && <h6>Кол-во: {info.amount}</h6>
+                                info.amount ? <h6>Кол-во: {info.amount}</h6> : null
                             }
-                                <h2>{info.title}
-                            }</h2>
+                            <h2>{info.title}</h2>
+
                             <p>{info.description}</p>
-                            {
-                                info.views && <div className="views">Просмотров: {info.views}</div>
-                            }
                             <br />
                             <span className="price">{info.price === 0 ? 'Договорная' : `${info.price} ₽`}</span>
                             <div className="offer-group-btn">
-                                <button type={'button'} className={'sold-offer'}>Закрыть предложение</button>
-                                <button type={'button'} className={'close-offer'}>Удалить везде</button>
+                                <button type={'button'} className={'sold-offer'} onClick={() => this.deleteOffer(info.id)}>Удалить/Закрыть предложение</button>
                             </div>
                         </div>
                     </main>
@@ -50,7 +89,6 @@ class Info extends React.Component{
                     {/*</footer>*/}
                 </div>
             </div>
-
 
         return(modal)
     }
@@ -73,11 +111,11 @@ class Card extends React.Component{
                                 <a href="#">Посмотреть все <i className="fa fa-angle-right" aria-hidden="true"></i></a>
                             </div>
                             <div className="course-info">
-                                <h6>Кол-во: {obj.amount}</h6>
+                                <h6>Кол-во: {obj.amount || 1}</h6>
                                 <h2>{obj.title}</h2>
                                 <p>{obj.description}</p>
                             </div>
-                            <div className="price">{ obj.price === 0 ? 'Договорная' : `${obj.price} ₽`}</div>
+                            <div className="price">{ obj.price ? 'Договорная' : `${obj.price} ₽`}</div>
                         </div>
                     )
                 }
@@ -133,7 +171,6 @@ export default class Dashboard extends React.Component{
             response.json().then(
                 function(data) {
                     // Doing something with response
-                    console.log(data);
                     if (data.length){
                         _this.setState({
                             data: data,

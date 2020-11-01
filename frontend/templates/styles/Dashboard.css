@@ -16,6 +16,7 @@
 	height: 50px;
 	width: 100%;
 	display: flex;
+	margin-bottom: 20px;
 }
 
 .create-offer-btn a {
@@ -26,6 +27,7 @@
 	text-decoration: none;
 	font-size: 14px;
 	font-weight: 400;
+	cursor: pointer;
 }
 
 .create-offer-btn a:hover {

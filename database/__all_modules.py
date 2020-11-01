@@ -84,26 +84,34 @@ class Offer(SqlAlchemyBase):
     description = sqlalchemy.Column(sqlalchemy.Text, default='')
     year = sqlalchemy.Column(sqlalchemy.Integer, default=None)
     volume = sqlalchemy.Column(sqlalchemy.Integer, default=None)
-    fuel_type = sqlalchemy.Column(sqlalchemy.String, default='бенз.')
-    transmission = sqlalchemy.Column(sqlalchemy.String, default='авт.')
+    fuel_type = sqlalchemy.Column(sqlalchemy.String, default='')
+    transmission = sqlalchemy.Column(sqlalchemy.String, default='')
     probegrf = sqlalchemy.Column(sqlalchemy.Integer, default=0)
     probeg = sqlalchemy.Column(sqlalchemy.Integer, default=0)
-    rul = sqlalchemy.Column(sqlalchemy.String, default='Прав.')
-    privod = sqlalchemy.Column(sqlalchemy.String, default='передний')
-    pts_record = sqlalchemy.Column(sqlalchemy.String, default='с документами')
-    used = sqlalchemy.Column(sqlalchemy.String, default='подержанный')
+    rul = sqlalchemy.Column(sqlalchemy.String, default='')
+    privod = sqlalchemy.Column(sqlalchemy.String, default='')
+    pts_record = sqlalchemy.Column(sqlalchemy.String, default='')
+    used = sqlalchemy.Column(sqlalchemy.String, default='')
     price = sqlalchemy.Column(sqlalchemy.Integer, default=0)
     currency = sqlalchemy.Column(sqlalchemy.String, default='RUB')
-    s_presence = sqlalchemy.Column(sqlalchemy.String, default='в наличии')
+    s_presence = sqlalchemy.Column(sqlalchemy.String, default='')
     location = sqlalchemy.Column(sqlalchemy.String, default='Владивосток')
     photos = sqlalchemy.Column(sqlalchemy.String, default='')
+    dvs = sqlalchemy.Column(sqlalchemy.String, default='')
+    engine = sqlalchemy.Column(sqlalchemy.String, default='')
+    FB = sqlalchemy.Column(sqlalchemy.String, default='')
+    LR = sqlalchemy.Column(sqlalchemy.String, default='')
+    UD = sqlalchemy.Column(sqlalchemy.String, default='')
+    kuzov = sqlalchemy.Column(sqlalchemy.String, default='')
+    oem = sqlalchemy.Column(sqlalchemy.String, default='')
+    producer = sqlalchemy.Column(sqlalchemy.String, default='')
     date = sqlalchemy.Column(sqlalchemy.String, default=time)
 
     @staticmethod
     def add_auto(session, data):
         try:
             o = Offer()
-            o.type_offer = 1 if data['auto_type'] == 'автомобиль' else 2
+            o.type_offer = 1
             o.title = data['title']
             o.description = data['description']
             o.firm = data['firm']
@@ -129,6 +137,33 @@ class Offer(SqlAlchemyBase):
             return False
 
     @staticmethod
+    def add_part(session, data):
+        try:
+            o = Offer()
+            o.type_offer = 2
+            o.title = data['title']
+            o.description = data['description']
+            o.firm = data['firm']
+            o.model = data['model']
+            o.dvs = data['dvs']
+            o.engine = data['engine']
+            o.FB = data['FB']
+            o.LR = data['LR']
+            o.UD = data['UD']
+            o.kuzov = data['kuzov']
+            o.oem = data['oem']
+            o.producer = data['producer']
+            o.used = data['used']
+            o.price = int(data['price'])
+            o.photos = ', '.join(data['photos'])
+            session.add(o)
+            session.commit()
+            return True
+        except Exception as err:
+            print(err)
+            return False
+
+    @staticmethod
     def get_auto(session):
         o = session.query(Offer).filter(Offer.type_offer == 1).all()
         if o is None:
@@ -136,6 +171,7 @@ class Offer(SqlAlchemyBase):
         resp = []
         for obj in o:
             resp.append({
+                'id': obj.id,
                 'title': obj.title,
                 'type_offer': obj.type_offer,
                 'description': obj.description,
@@ -153,10 +189,40 @@ class Offer(SqlAlchemyBase):
                 'used': obj.used,
                 'price': obj.price,
                 'location': obj.location,
-                'photos': [] if len(obj.photos.split(',')) else obj.photos.split(','),
+                'photos': obj.photos.split(', ') if len(obj.photos.split(', ')) else [],
                 'created_date': obj.date
             })
-        resp.sort(key=lambda x: int(x['created_date']))
+        resp.sort(key=lambda x: int(float(x['created_date'])))
+        return list(resp)
+
+    @staticmethod
+    def get_parts(session):
+        o = session.query(Offer).filter(Offer.type_offer == 2).all()
+        if o is None:
+            return []
+        resp = []
+        for obj in o:
+            resp.append({
+                'id': obj.id,
+                'type_offer': obj.type_offer,
+                'title': obj.title,
+                'description': obj.description,
+                'firm': obj.firm,
+                'model': obj.model,
+                'dvs': obj.dvs,
+                'engine': obj.engine,
+                'FB': obj.FB,
+                'LR': obj.LR,
+                'UD': obj.UD,
+                'kuzov': obj.kuzov,
+                'oem': obj.oem,
+                'producer': obj.producer,
+                'used': obj.used,
+                'price': obj.price,
+                'photos': obj.photos.split(', ') if len(obj.photos.split(', ')) else [],
+                'created_date': obj.date
+            })
+        resp.sort(key=lambda x: int(float(x['created_date'])))
         return list(resp)
 
     @staticmethod

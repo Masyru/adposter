@@ -1,7 +1,6 @@
 import React from "react";
 import "../styles/Offer.css";
-import { InputGroup, FormControl, Button, ButtonGroup,
-    Row, Col, DropdownButton, Dropdown } from "react-bootstrap";
+import { InputGroup, FormControl, Button } from "react-bootstrap";
 import PhotoChooser from "./Photo-chooser";
 import { setHideBodyOverflow } from "./Utils";
 
@@ -30,9 +29,10 @@ class Part extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
-            title: '',
-            model: '',
-            firm: '',
+            title: 'Берутся из списка, который вышлют при добавлении на Japancars',
+            model: 'Берутся из списка, который вышлют при добавлении на Japancars',
+            firm: 'Берутся из списка, который вышлют при добавлении на Japancars',
+            used: 'новая',
             kuzov: '',
             engine: '',
             dvs: '',
@@ -70,6 +70,16 @@ class Part extends React.Component{
                 ...st,
                 state: '2',
             };
+            // Берем значения с selectpicker'ов
+            data.title = $("button[data-id='title']")[0].title;
+            data.firm = $("button[data-id='firm']")[0].title;
+            data.model = $("button[data-id='model']")[0].title;
+            data.used = $("button[data-id='used']")[0].title;
+            data.LR = $("button[data-id='LR']")[0].title;
+            data.UD = $("button[data-id='UD']")[0].title;
+            data.FB = $("button[data-id='FB']")[0].title;
+            data.s_presence = $("button[data-id='s_presence']")[0].title;
+
             data.showPhotoChooser = undefined;
 
             fetch('/offer',
@@ -133,28 +143,28 @@ class Part extends React.Component{
                 <label htmlFor="title" className={'mt-3'}>Название запчасти: </label>
                 <select className="selectpicker mb-3" id={'title'} name={'title'}>
                     {
-                        ['Берутся из списка, который вышлют при добавлении на Japancars'].map((obj, i) => <option key={i} onClick={() => this.setState({title: obj})}>{obj}</option>)
+                        ['Берутся из списка, который вышлют при добавлении на Japancars'].map((obj, i) => <option key={i}>{obj}</option>)
                     }
                 </select>
 
                 <label htmlFor="firm" className={'mt-3'}>Фирма: </label>
                 <select className="selectpicker mb-3" id={'firm'} name={'firm'}>
                     {
-                        ['Берутся из списка, который вышлют при добавлении на Japancars'].map((obj, i) => <option key={i} onClick={() => this.setState({firm: obj})}>{obj}</option>)
+                        ['Берутся из списка, который вышлют при добавлении на Japancars'].map((obj, i) => <option key={i}>{obj}</option>)
                     }
                 </select>
 
                 <label htmlFor="model" className={'mt-3'}>Модель: </label>
                 <select className="selectpicker mb-3" id={'model'} name={'model'}>
                     {
-                        ['Берутся из списка, который вышлют при добавлении на Japancars'].map((obj, i) => <option key={i} onClick={() => this.setState({model: obj})}>{obj}</option>)
+                        ['Берутся из списка, который вышлют при добавлении на Japancars'].map((obj, i) => <option key={i}>{obj}</option>)
                     }
                 </select>
 
-                <label htmlFor="used" className={'mt-3'}>Состояние запчасти:: </label>
+                <label htmlFor="used" className={'mt-3'}>Состояние запчасти: </label>
                 <select className="selectpicker mb-3" id={'used'} name={'used'}>
                     {
-                        ['новая', 'контрактная'].map((obj, i) => <option key={i} onClick={() => this.setState({used: obj})}>{obj}</option>)
+                        ['новая', 'контрактная'].map((obj, i) => <option key={i}>{obj}</option>)
                     }
                 </select>
 
@@ -191,19 +201,19 @@ class Part extends React.Component{
 
                 <label className={'mt-3'}>Положение запчасти:</label>
                 <br />
-                <select className="selectpicker mb-3 col-4">
+                <select className="selectpicker mb-3 col-4" id='LR'>
                     {
-                        ['Право', 'Лево', '-'].map((obj, i) => <option key={i} onClick={() => this.setState({LR: obj})}>{obj}</option>)
+                        ['Право', 'Лево', '-'].map((obj, i) => <option key={i}>{obj}</option>)
                     }
                 </select>
-                <select className="selectpicker mb-3 col-4">
+                <select className="selectpicker mb-3 col-4" id='UD'>
                     {
-                        ['Верх', 'Низ', '-'].map((obj, i) => <option key={i} onClick={() => this.setState({UD: obj})}>{obj}</option>)
+                        ['Верх', 'Низ', '-'].map((obj, i) => <option key={i}>{obj}</option>)
                     }
                 </select>
-                <select className="selectpicker mb-3 col-4">
+                <select className="selectpicker mb-3 col-4" id='FB'>
                     {
-                        ['Перед', 'Зад', '-'].map((obj, i) => <option key={i} onClick={() => this.setState({FB: obj})}>{obj}</option>)
+                        ['Перед', 'Зад', '-'].map((obj, i) => <option key={i}>{obj}</option>)
                     }
                 </select>
 
@@ -248,7 +258,7 @@ class Part extends React.Component{
                 <label htmlFor="s_presence">Статус: </label>
                 <select className="selectpicker mb-3" id={'s_presence'} name={'s_presence'}>
                     {
-                        ['в наличии', 'под заказ', 'в пути'].map((obj, i) => <option key={i} onClick={() => this.setState({s_presence: obj})}>{obj}</option>)
+                        ['в наличии', 'под заказ', 'в пути'].map((obj, i) => <option key={i}>{obj}</option>)
                     }
                 </select>
 
@@ -314,7 +324,6 @@ class Part extends React.Component{
 
 
 const _default = {
-    auto_type: 'автомобиль',
     name: '',
     firm: '',
     model: '',
@@ -343,7 +352,6 @@ class Car extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
-            auto_type: 'автомобиль',
             title: '',
             firm: '',
             model: '',
@@ -395,7 +403,17 @@ class Car extends React.Component{
                 ...st,
                 state: '1',
             };
+            // Берем значения с selectpicker'ов
+            data.fuel_type = $("button[data-id='fuel_type']")[0].title;
+            data.transmission = $("button[data-id='transmission']")[0].title;
+            data.rul = $("button[data-id='rul']")[0].title;
+            data.pts_record = $("button[data-id='pts_record']")[0].title;
+            data.privod = $("button[data-id='privod']")[0].title;
+            data.used = $("button[data-id='used']")[0].title;
+            data.s_presence = $("button[data-id='s_presence']")[0].title;
+
             data.showPhotoChooser = undefined;
+
 
             fetch('/offer',
        {
@@ -512,7 +530,7 @@ class Car extends React.Component{
                 <label htmlFor="fuel_type" className={'mt-3'}>Тип двигателя: </label>
                 <select className="selectpicker mb-3" id={'fuel_type'} name={'fuel_type'}>
                     {
-                        ['бенз.', 'газ', 'диз.', 'гибрид'].map((obj, i) => <option key={i} onClick={() => this.setState({fuel_type: obj})}>{obj}</option>)
+                        ['бенз.', 'газ', 'диз.', 'гибрид'].map((obj, i) => <option key={i}>{obj}</option>)
                     }
                 </select>
 
@@ -540,7 +558,7 @@ class Car extends React.Component{
                 <label htmlFor="transmission" className={'mt-3'}>Тип кпп: </label>
                 <select className="selectpicker mb-3" id={'transmission'} name={'transmission'}>
                     {
-                        ['авт.', 'мех', 'вариатор'].map((obj, i) => <option key={i} onClick={() => this.setState({transmission: obj})}>{obj}</option>)
+                        ['авт.', 'мех', 'вариатор'].map((obj, i) => <option key={i}>{obj}</option>)
                     }
                 </select>
 
@@ -568,14 +586,14 @@ class Car extends React.Component{
                 <label htmlFor="rul" className={'mt-3'}>Положение руля: </label>
                 <select className="selectpicker mb-3" id={'rul'} name={'rul'}>
                     {
-                        ['Прав.', 'Лев.', 'Центр'].map((obj, i) => <option key={i} onClick={() => this.setState({rul: obj})}>{obj}</option>)
+                        ['Прав.', 'Лев.', 'Центр'].map((obj, i) => <option key={i}>{obj}</option>)
                     }
                 </select>
 
                 <label htmlFor="s_presence">Статус: </label>
                 <select className="selectpicker mb-3" id={'s_presence'} name={'s_presence'}>
                     {
-                        ['в наличии', 'под заказ', 'в пути'].map((obj, i) => <option key={i} onClick={() => this.setState({s_presence: obj})}>{obj}</option>)
+                        ['в наличии', 'под заказ', 'в пути'].map((obj, i) => <option key={i}>{obj}</option>)
                     }
                 </select>
 
@@ -595,21 +613,21 @@ class Car extends React.Component{
                 <label htmlFor="privod">Привод: </label>
                 <select className="selectpicker mb-3" id={'privod'} name={'privod'}>
                     {
-                        ['передний', 'задний', '4WD'].map((obj, i) => <option key={i} onClick={() => this.setState({privod: obj})}>{obj}</option>)
+                        ['передний', 'задний', '4WD'].map((obj, i) => <option key={i}>{obj}</option>)
                     }
                 </select>
 
                 <label htmlFor="pts_record">Документы ( Авто под ПТС или оформленное ): </label>
                 <select className="selectpicker mb-3" id={'pts_record'} name={'pts_record'}>
                     {
-                        ['с документами', 'без документами'].map((obj, i) => <option key={i} onClick={() => this.setState({pts_record: obj})}>{obj}</option>)
+                        ['с документами', 'без документами'].map((obj, i) => <option key={i}>{obj}</option>)
                     }
                 </select>
 
                 <label htmlFor="used">Состояние: </label>
                 <select className="selectpicker mb-3" id={'used'} name={'used'}>
                     {
-                        ['подержанный', 'битый/аварийный'].map((obj, i) => <option key={i} onClick={() => this.setState({used: obj})}>{obj}</option>)
+                        ['подержанный', 'битый/аварийный'].map((obj, i) => <option key={i}>{obj}</option>)
                     }
                 </select>
 
@@ -673,6 +691,7 @@ class Car extends React.Component{
     }
 }
 
+
 export default class Offer extends React.Component{
     constructor(props) {
         super(props);
@@ -684,72 +703,6 @@ export default class Offer extends React.Component{
     }
 
     render() {
-
-        let prev_blocks =
-            <>
-                <InputGroup className="mb-3" as={Row}>
-                    <FormControl
-                        placeholder="Кол-во"
-                        aria-label="price"
-                        aria-describedby="basic-addon3"
-                        type={'number'}
-                    />
-                    <FormControl
-                        sm={3} lg={3} xl={3} md={3}
-                        placeholder="Цена"
-                        aria-label="price"
-                        aria-describedby="basic-addon3"
-                        id={'price'}
-                    />
-                    <InputGroup.Append>
-                        <InputGroup.Text id="basic-addon2">₽</InputGroup.Text>
-                    </InputGroup.Append>
-                </InputGroup>
-
-                <InputGroup className="mb-3" as={Row} sm={12} lg={12} xl={12} md={12}>
-                    <Button variant="primary" size="sm" block onClick={() => this.setState({showPhotoChooser: true})}>Добавить фото</Button>
-                </InputGroup>
-
-                <InputGroup className="mb-3" as={Row}>
-                    {
-                        ['Farpost', 'Japancars', 'Avito'].map((name, i) => <button
-                            className={`mx-2 service-btn${this.state.services.includes(name) ? ' added' : ''}`}
-                            type={'button'}
-                            key={i}
-                            onClick={() => {
-                                let res = this.state.services
-                                if(this.state.services.includes(name)){
-                                    res = res.filter(obj => obj !== name)
-                                } else {
-                                    res.push(name)
-                                }
-                                this.setState({services: res})
-                            }}>{!this.state.services.includes(name) && <i className="fa fa-plus" aria-hidden="true"></i>} {name}</button>)
-                    }
-                </InputGroup>
-
-                <InputGroup className="mb-5">
-                    {
-                        this.state.services.map((name, i) =>
-                            <DropdownButton key={i} id="dropdown-item-button" title={name} className={'my-3'} variant={'secondary'}>
-                                <Dropdown.ItemText>Выберите категорию товара.</Dropdown.ItemText>
-                                <Dropdown.Item as="button">{1}) Автомобили <i className="fa fa-arrow-right" aria-hidden="true"></i> Запчасти</Dropdown.Item>
-                                <Dropdown.Item as="button">{2}) Автомобили <i className="fa fa-arrow-right" aria-hidden="true"></i> Другое</Dropdown.Item>
-                            </DropdownButton>
-                        )
-                    }
-                </InputGroup>
-
-                <InputGroup as={Row} style={{
-                    marginTop: '150px'
-                }}>
-                    <Col sm={8} lg={8} xl={8} md={8}></Col>
-                    <ButtonGroup sm={4} lg={4} xl={4} md={4} as={Col}>
-                        <Button variant={'warning'}>Создать</Button>
-                        <Button variant={'outline-danger'}>Отмена</Button>
-                    </ButtonGroup>
-                </InputGroup>
-            </>;
 
         let offer =
             <>

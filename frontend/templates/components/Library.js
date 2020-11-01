@@ -129,10 +129,12 @@ export default class Library extends React.Component{
             <>
                 <Loading>
                     <div className="create-offer-btn">
-                        <a href="#upload_photo" onClick={() => this.setState({upload: true})}> <i className="fa fa-plus-circle" aria-hidden="true"></i> Загрузить фото </a>
+                        <a onClick={() => this.setState({upload: true})}> <i className="fa fa-plus-circle" aria-hidden="true"></i> Загрузить фото </a>
                     </div>
                     <Gallery>
-                        <div className={'row'}>
+                        <div className={'row'} style={{
+                            paddingBottom: '100px'
+                        }}>
                             {
                                 this.state.data.map((obj, i) => <PhotoCard data={obj} key={i} onClick={() => this.setState({photo: data})}/>)
                             }

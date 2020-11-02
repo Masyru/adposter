@@ -100,24 +100,36 @@ class Card extends React.Component{
         let card =
             <div className="courses-container">
                 {
-                    this.props.data.map((obj, i) =>
-                        <div className="course" key={i} onClick={() => this.props.setInfo(obj)}>
-                            <div className="course-preview" style={{
-                                backgroundImage: `url('/public/uploads/${obj.photos.length && obj.photos[0]}')`,
-                                backgroundPosition: 'center center',
-                                backgroundSize: 'cover',
-                            }}>
-                                <h6>Главное фото</h6>
-                                <a href="#">Посмотреть все <i className="fa fa-angle-right" aria-hidden="true"></i></a>
-                            </div>
-                            <div className="course-info">
-                                <h6>Кол-во: {obj.amount || 1}</h6>
-                                <h2>{obj.title}</h2>
-                                <p>{obj.description}</p>
-                            </div>
-                            <div className="price">{ obj.price ? 'Договорная' : `${obj.price} ₽`}</div>
-                        </div>
-                    )
+                    this.props.data.length ?
+                        this.props.data.map((obj, i) =>
+                            <div className="course" key={i} onClick={() => this.props.setInfo(obj)}>
+                                <div className="course-preview" style={{
+                                    backgroundImage: `url('/public/uploads/${obj.photos.length && obj.photos[0]}')`,
+                                    backgroundPosition: 'center center',
+                                    backgroundSize: 'cover',
+                                }}>
+                                    <h6>Главное фото</h6>
+                                    <a href="#">Посмотреть все <i className="fa fa-angle-right" aria-hidden="true"></i></a>
+                                </div>
+                                <div className="course-info">
+                                    <h6>Кол-во: {obj.amount || 1}</h6>
+                                    <h2>{obj.title}</h2>
+                                    <p>{obj.description}</p>
+                                </div>
+                                <div className="price">{ obj.price ? 'Договорная' : `${obj.price} ₽`}</div>
+                            </div>)
+                            :
+                                    <div style={{
+                                        width: '100%',
+                                        height: '100%',
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        justifyContent: 'center',
+                                        alignItems: 'center',
+                                        fontWeight: '500',
+                                        fontSize: '14pt',
+                                        color: '#BDBDBD',
+                                    }}>Здесь еще нет объявлений, создайте их.</div>
                 }
             </div>;
 
@@ -191,7 +203,7 @@ export default class Dashboard extends React.Component{
             <>
                 <Loading>
                     <div className="create-offer-btn">
-                    <a href="/offer"><i className="fa fa-plus-circle" aria-hidden="true"></i> Создать объявление</a>
+                    <a href="/offer"><i className="fa fa-plus-circle my-3" aria-hidden="true"></i> Создать объявление</a>
                     </div>
                     <Card data={this.state.data} setInfo={(data) => this.setState({showInfo: data})}/>
                     {

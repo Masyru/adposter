@@ -19,8 +19,9 @@ class Cards extends React.Component{
                                 style={{
                                     backgroundColor: '#eaeaea',
                                     backgroundImage: `url('/public/uploads/${obj}')`,
-                                    backgroundSize: 'cover cover',
+                                    backgroundSize: 'contain',
                                     backgroundPosition: 'center center',
+                                    backgroundRepeat: 'no-repeat',
                                 }}
                                 onClick={() => props.countCard(obj)}>
                                 {

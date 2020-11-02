@@ -1,6 +1,6 @@
 import React from "react";
 import "../styles/Offer.css";
-import { InputGroup, FormControl, Button } from "react-bootstrap";
+import { InputGroup, FormControl, Button, Alert } from "react-bootstrap";
 import PhotoChooser from "./Photo-chooser";
 import { setHideBodyOverflow } from "./Utils";
 
@@ -110,15 +110,18 @@ class Part extends React.Component{
                             _this.setState({
                                 loading: false,
                             });
-                            _this.setState(__default)
+                            _this.setState(__default);
+                            _this.props.onSuccess();
                         } else {
-                            window.location.href = '/';
+                            _this.props.onError();
                         }
                     });
 
             }).catch(function (error) {
                     console.log('error: ', error);
             })
+        } else {
+            _this.props.onError();
         }
     }
 
@@ -444,14 +447,17 @@ class Car extends React.Component{
                                 loading: false,
                             });
                             _this.setState(_default)
+                            _this.props.onSuccess();
                         } else {
-                            window.location.href = '/';
+                            _this.props.onError();
                         }
                     });
 
             }).catch(function (error) {
                     console.log('error: ', error);
             })
+        } else {
+            _this.props.onError();
         }
     }
 
@@ -699,6 +705,8 @@ export default class Offer extends React.Component{
             services: [],
             showPhotoChooser: false,
             mode: null,
+            uploaded: false,
+            unfilled: false,
         }
     }
 
@@ -711,6 +719,28 @@ export default class Offer extends React.Component{
                 </div>
                 <h2 className='my-3'>Создание объявления</h2>
                 <div className={'offer-inputs'}>
+
+                    {
+                        this.state.uploaded ?
+                            <Alert className={'my-5'} variant="success" onClose={() => this.setState({uploaded: false})} dismissible>
+                                <Alert.Heading>Объявление успешно загружено</Alert.Heading>
+                                <p>
+                                  Все было успешно загружено и сохранено в базе данных. <br/>
+                                  Чтобы посмотреть перейдите в <a href="/dashboard">Dashboard</a>
+                                </p>
+                            </Alert> : null
+                    }
+
+                    {
+                        this.state.unfilled ?
+                            <Alert className={'my-5'} variant="danger" onClose={() => this.setState({error: false})} dismissible>
+                                <Alert.Heading>Проверьте поля ввода</Alert.Heading>
+                                <p>
+                                  Не все поля заполненны. <br/>
+                                  Дозаполните их и попытайтесь снова.
+                                </p>
+                            </Alert> : null
+                    }
 
                     <InputGroup>
                         <Button
@@ -736,8 +766,28 @@ export default class Offer extends React.Component{
                         </Button>
                     </InputGroup>
 
-                    <Car show={this.state.mode === 1}/>
-                    <Part show={this.state.mode === 2}/>
+                    <Car
+                        show={this.state.mode === 1}
+                        onSuccess={() => {
+                            window.scrollTo(0, 0);
+                            this.setState({uploaded: true, mode: null})
+                        }}
+                        onError={() => {
+                            window.scrollTo(0, 0);
+                            this.setState({unfilled: true})
+                        }}
+                    />
+                    <Part
+                        show={this.state.mode === 2}
+                        onSuccess={() => {
+                            window.scrollTo(0, 0);
+                            this.setState({uploaded: true, mode: null})
+                        }}
+                        onError={() => {
+                            window.scrollTo(0, 0);
+                            this.setState({unfilled: true})
+                        }}
+                    />
 
                 </div>
             </>;

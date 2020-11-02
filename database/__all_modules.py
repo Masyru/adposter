@@ -17,11 +17,12 @@ class Login(SqlAlchemyBase):
 
     @staticmethod
     def add_account(session: Session, login, password) -> None:
-        a = Login()
-        a.login = login
-        a.hashed_password = generate_password_hash(password)
-        session.add(a)
-        session.commit()
+        if session.query(Login).filter(login == Login.login).first() is None:
+            a = Login()
+            a.login = login
+            a.hashed_password = generate_password_hash(password)
+            session.add(a)
+            session.commit()
 
     @staticmethod
     def check_login(session: Session, login, password) -> bool:
@@ -227,7 +228,8 @@ class Offer(SqlAlchemyBase):
 
     @staticmethod
     def get_titles_via_image(session, image):
-        o = session.query(Offer).filter(image in str(Offer.photos).split(', ')).all()
+        o = session.query(Offer).filter().all()
+        o = filter(lambda obj: image in str(obj.photos).split(', '), o)
         if o is None:
             return []
         resp = [obj.title for obj in o]

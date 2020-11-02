@@ -25,6 +25,7 @@ global_vars = open_file_serialize()
 # Init db
 __session.global_init("./database/database.db")
 session = __session.create_session()
+Login.add_account(session, 'admin', 'admin')
 
 
 # check permission to upload file

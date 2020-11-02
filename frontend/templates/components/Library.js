@@ -62,10 +62,10 @@ export class Modal extends React.Component{
                                     </span>
                                     <br />
                                     <span className="where">
-                                        Объявления: {this.props.data.offers.join(', ') || 'Пусто'}
+                                        Объявления: <span style={{fontWeight: '300', lineHeight: '1.1'}}>{this.props.data.offers.join('; ') || 'Пусто'}</span>
                                     </span>
                                     <br />
-                                    <Button variant={'danger'} size={'sm'} onClick={() => this.deleteImage(this.props.data.url)}>Удалить изображение</Button>
+                                    <Button variant={'danger'} className={'mt-5'} size={'sm'} onClick={() => this.deleteImage(this.props.data.url)}>Удалить изображение</Button>
                                 </div>
                             </div>
                     }
@@ -178,8 +178,22 @@ export default class Library extends React.Component{
                             paddingBottom: '100px'
                         }}>
                             {
-                                this.state.data.map((obj, i) => <PhotoCard data={obj} key={i} showInfo={(item) => this.setState({photo: item})}/>)
+                                this.state.data.length ?
+                                    this.state.data.map((obj, i) => <PhotoCard data={obj} key={i} showInfo={(item) => this.setState({photo: item})}/>)
+                                    :
+                                    <div style={{
+                                        width: '100%',
+                                        height: '100%',
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        justifyContent: 'center',
+                                        alignItems: 'center',
+                                        fontWeight: '500',
+                                        fontSize: '14pt',
+                                        color: '#BDBDBD',
+                                    }}>Здесь еще нет фотографий, загрузите их.</div>
                             }
+
                         </div>
                     </Gallery>
                     {

@@ -88,6 +88,7 @@ div#having span {
 .photo-watcher {
     display: flex;
     width: 100%;
+    flex-wrap: wrap;
 }
 
 .photo-watcher__item {

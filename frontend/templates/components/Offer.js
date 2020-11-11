@@ -2,7 +2,8 @@ import React from "react";
 import "../styles/Offer.css";
 import { InputGroup, FormControl, Button, Alert } from "react-bootstrap";
 import PhotoChooser from "./Photo-chooser";
-import { setHideBodyOverflow, MobileScreenOn } from "./Utils";
+import { setHideBodyOverflow, MobileScreenOn, models, parts } from "./Utils";
+
 
 const __default = {
     title: '',
@@ -30,9 +31,8 @@ class Part extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
-            title: 'Берутся из списка, который вышлют при добавлении на Japancars',
-            model: 'Берутся из списка, который вышлют при добавлении на Japancars',
-            firm: 'Берутся из списка, который вышлют при добавлении на Japancars',
+            title: '',
+            name: '',
             used: 'новая',
             kuzov: '',
             engine: '',
@@ -74,8 +74,7 @@ class Part extends React.Component{
             };
             // Берем значения с selectpicker'ов
             data.title = $("button[data-id='title']")[0].title;
-            data.firm = $("button[data-id='firm']")[0].title;
-            data.model = $("button[data-id='model']")[0].title;
+            data.name = $("button[data-id='name']")[0].title;
             data.used = $("button[data-id='used']")[0].title;
             data.LR = $("button[data-id='LR']")[0].title;
             data.UD = $("button[data-id='UD']")[0].title;
@@ -144,24 +143,33 @@ class Part extends React.Component{
                 {/*    }*/}
                 {/*</select>*/}
 
-                <label htmlFor="title" className={'mt-3'}>Название запчасти: </label>
-                <select className="selectpicker mb-3" id={'title'} name={'title'}>
+                <label htmlFor="title" className={'mt-3'}>Фирма и модель авто: </label>
+                <select className="selectpicker mb-3" id={'title'} name={'title'} mobile="true" data-live-search="true">
                     {
-                        ['Берутся из списка, который вышлют при добавлении на Japancars'].map((obj, i) => <option key={i}>{obj}</option>)
+                        <optgroup label="Марки авто" key={10000}>
+                                {
+                                    Object.keys(models).map((obj, j) =>
+                                        <option title={obj} key={j + 10000}>{obj}</option>
+                                    )
+                                }
+                        </optgroup>
+                    }
+                    {
+                        Object.keys(models).map((title, i) =>
+                            <optgroup label={title} key={i}>
+                                {
+                                    models[title].map((obj, j) =>
+                                        <option title={`${title} ${obj}`} key={j + 4200}>{obj}</option>
+                                    )
+                                }
+                            </optgroup>)
                     }
                 </select>
 
-                <label htmlFor="firm" className={'mt-3'}>Фирма: </label>
-                <select className="selectpicker mb-3" id={'firm'} name={'firm'}>
+                <label htmlFor="name" className={'mt-3'}>Название запчасти: </label>
+                <select className="selectpicker mb-3" id={'name'} name={'name'} mobile="true" data-live-search="true">
                     {
-                        ['Берутся из списка, который вышлют при добавлении на Japancars'].map((obj, i) => <option key={i}>{obj}</option>)
-                    }
-                </select>
-
-                <label htmlFor="model" className={'mt-3'}>Модель: </label>
-                <select className="selectpicker mb-3" id={'model'} name={'model'}>
-                    {
-                        ['Берутся из списка, который вышлют при добавлении на Japancars'].map((obj, i) => <option key={i}>{obj}</option>)
+                        parts.map((obj, i) => <option key={i}>{obj}</option>)
                     }
                 </select>
 
@@ -303,8 +311,8 @@ class Part extends React.Component{
                             <div className="photo-watcher__item" key={i} style={{
                                 backgroundColor: '#eaeaea',
                                 backgroundImage: `url('/public/uploads/${obj}')`,
-                                backgroundSize: 'cover cover',
-                                backgroundPosition: 'center center',
+                                backgroundPosition: 'center',
+                                backgroundSize: 'cover',
                             }}>
                             </div>
                         )
@@ -313,13 +321,20 @@ class Part extends React.Component{
 
                 <InputGroup style={{
                     width: '100%',
-                    margin: '150px 0 30px 0',
+                    margin: '40px 0 30px 0',
                     display: 'flex'
                 }}>
-                    <Button variant={'warning'} style={{
-                        margin: 'auto 20px auto auto'
-                    }}
-                            onClick={this.sendOffer}
+                    <Button variant={'warning'}
+                        style={ MobileScreenOn() ?
+                            {
+                                margin: '0',
+                                width: '100%',
+                            } :
+                            {
+                                margin: 'auto 20px auto auto'
+                            }
+                        }
+                        onClick={this.sendOffer}
                     >Создать</Button>
                 </InputGroup>
 
@@ -408,8 +423,6 @@ class Car extends React.Component{
               st = this.state;
         if(
             st.title !== '' &&
-            st.firm !== '' &&
-            st.model !== '' &&
             st.description !== '' &&
             st.year !== '' &&
             st.volume !== '' &&
@@ -423,6 +436,11 @@ class Car extends React.Component{
             };
             // Берем значения с selectpicker'ов
             data.fuel_type = $("button[data-id='fuel_type']")[0].title;
+
+            let firm_model = $("button[data-id='firm_model']")[0].title;
+            data.firm = firm_model.split(' ')[0];
+            data.model = firm_model.split(' ')[1];
+
             data.transmission = $("button[data-id='transmission']")[0].title;
             data.rul = $("button[data-id='rul']")[0].title;
             data.pts_record = $("button[data-id='pts_record']")[0].title;
@@ -434,7 +452,7 @@ class Car extends React.Component{
 
 
             fetch('/offer',
-       {
+            {
                 method: 'POST',
                 headers: {
                 "Access-Control-Allow-Origin": "*",
@@ -486,13 +504,6 @@ class Car extends React.Component{
                 display: this.props.show ? 'block' : 'none'
             }}>
 
-                {/*<label htmlFor="f" className={'mt-3'}>Вид: </label>*/}
-                {/*<select className="selectpicker mb-3" id={'f'} name={'f'}>*/}
-                {/*    {*/}
-                {/*        ['автомобиль', 'спец.техника'].map((obj, i) => <option key={i}>{obj}</option>)*/}
-                {/*    }*/}
-                {/*</select>*/}
-
                 <InputGroup className="mb-2 mt-5" style={{
                     width: '100%'
                 }}>
@@ -507,30 +518,19 @@ class Car extends React.Component{
 
                 </InputGroup>
 
-                <InputGroup className="mb-3" style={{
-                    width: '100%'
-                }}>
-                        <FormControl
-                            required
-                            size={'sm'}
-                            placeholder="Марка"
-                            aria-label="title"
-                            aria-describedby="basic-addon1"
-                            value={st.firm}
-                            onChange={e => this.setState({firm: e.target.value})}
-                        />
-
-                        <FormControl
-                            required
-                            size={'sm'}
-                            placeholder="Модель"
-                            aria-label="title"
-                            aria-describedby="basic-addon1"
-                            value={st.model}
-                            onChange={e => this.setState({model: e.target.value})}
-                        />
-
-                </InputGroup>
+                <label htmlFor="firm_model" className={'mt-3'}>Фирма и модель авто: </label>
+                <select className="selectpicker mb-3" id={'firm_model'} name={'firm_model'} mobile="true" data-live-search="true">
+                    {
+                        Object.keys(models).map((title, i) =>
+                            <optgroup label={title} key={i}>
+                                {
+                                    models[title].map((obj, j) =>
+                                        <option title={`${title} ${obj}`} key={j + 4200}>{obj}</option>
+                                    )
+                                }
+                            </optgroup>)
+                    }
+                </select>
 
 
                 <InputGroup className="mb-3" style={{
@@ -677,8 +677,8 @@ class Car extends React.Component{
                             <div className="photo-watcher__item" key={i} style={{
                                 backgroundColor: '#eaeaea',
                                 backgroundImage: `url('/public/uploads/${obj}')`,
-                                backgroundSize: 'cover cover',
-                                backgroundPosition: 'center center',
+                                backgroundPosition: 'center',
+                                backgroundSize: 'cover',
                             }}>
                             </div>
                         )
@@ -687,12 +687,19 @@ class Car extends React.Component{
 
                 <InputGroup style={{
                     width: '100%',
-                    margin: '150px 0 30px 0',
+                    margin: '40px 0 30px 0',
                     display: 'flex'
                 }}>
-                    <Button variant={'warning'} style={{
-                        margin: 'auto 20px auto auto'
-                    }}
+                    <Button variant={'warning'}
+                        style={ MobileScreenOn() ?
+                            {
+                                margin: '0',
+                                width: '100%',
+                            } :
+                            {
+                                margin: 'auto 20px auto auto'
+                            }
+                        }
                         onClick={this.sendOffer}
                     >Создать</Button>
                 </InputGroup>

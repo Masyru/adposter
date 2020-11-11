@@ -1,6 +1,9 @@
 import os
 import sys
 
+PUBLIC_NAME = 'http:/site.com'
+PATH_TO_XML = PUBLIC_NAME + '/public/service/'
+
 BASEDIR = os.path.abspath(os.path.curdir)
 
 STATIC = os.path.join(BASEDIR, 'frontend', 'static')

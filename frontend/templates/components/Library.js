@@ -91,7 +91,7 @@ class PhotoCard extends React.Component{
             <img
                 src={`/public/uploads/${this.props.data.url}`}
                 alt="Изображение не загрузилось"
-                className="photo col-xl-2 col-lg-2 col-md-4 col-sm-12"
+                className="photo"
                 onClick={() => this.props.showInfo(this.props.data)}
             />;
 
@@ -173,9 +173,8 @@ export default class Library extends React.Component{
                     <div className="create-offer-btn">
                         <a onClick={() => this.setState({upload: true})}> <i className="fa fa-plus-circle" aria-hidden="true"></i> Загрузить фото </a>
                     </div>
-                    <Gallery>
                         <div className={'row'} style={{
-                            paddingBottom: '100px'
+                            paddingBottom: '20px'
                         }}>
                             {
                                 this.state.data.length ?
@@ -194,8 +193,7 @@ export default class Library extends React.Component{
                                     }}>Здесь еще нет фотографий, загрузите их.</div>
                             }
 
-                        </div>
-                    </Gallery>
+                    </div>
                     {
                         this.state.photo ?
                             <Modal mode={0} data={this.state.photo} onHide={() => this.setState({photo: null})}/>

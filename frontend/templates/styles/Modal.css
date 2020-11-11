@@ -14,6 +14,7 @@
 }
 
 .info-modal__dialog {
+    position: relative;
     background-color: white;
     max-width: 1100px;
     min-height: 800px;
@@ -75,7 +76,6 @@
 .info-modal__dialog main .offer {
     width: 700px;
     margin: 30px;
-    position: relative;
     height: inherit;
     overflow-y: auto;
 }
@@ -143,6 +143,85 @@
     font-family: -apple-system, 'Roboto', sans-serif;
 }
 
+/* Modal */
+._modal__dialog {
+    width: 800px;
+    height: 900px;
+    position: relative;
+}
+
+._modal__dialog header {
+    height: 40px;
+    width: 100%;
+    display: flex;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border-bottom: 1px solid rgba(225, 225, 225, 0.2);
+}
+
+._modal__dialog header img {
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    cursor: pointer;
+}
+
+._modal__dialog main {
+    height: 710px;
+    width: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+._modal__dialog button {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 50px;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 0;
+}
+
+._modal__dialog button:hover {
+    background-color: #1283ff;
+    transition: background-color .200ms linear;
+}
+
+.chooser-block {
+    width: 100%;
+    height: 100%;
+}
+
+.chooser-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.photo-block {
+    width: 180px;
+    height: 113px;
+    margin: 10px 10px;
+    display: flex;
+    position: relative;
+}
+
+.photo-block img {
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+}
+
+
 /* Photo description */
 .photo-modal {
     width: 600px;
@@ -163,4 +242,111 @@
 .photo-modal__description {
     width: 400px;
     line-height: 2.0;
+}
+
+
+/* Mobile version */
+
+@media screen and (max-width: 800px) and (min-height: 650px) {
+    .info-modal__dialog {
+        background-color: white;
+        max-width: 100%;
+        height: 650px;
+        border-radius: 0;
+        border: none;
+        font-family: -apple-system, 'Roboto', sans-serif;
+    }
+
+    .info-modal__dialog header{
+        height: 35px;
+        margin: 5px;
+        position: relative;
+    }
+
+    .info-modal__dialog header img {
+        width: 35px;
+        height: 35px;
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        cursor: pointer;
+    }
+
+    .info-modal__dialog main {
+        display: block;
+        width: 100%;
+        height: calc(100% - 60px);
+        padding: 5px 0;
+    }
+
+    .info-modal__dialog main .gallery {
+        height: 220px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        overflow-y: auto;
+    }
+
+    .info-modal__dialog main .offer {
+        width: 100%;
+        margin: 0;
+        padding: 5px;
+        height: calc(100% - 275px);
+        overflow-y: auto;
+    }
+
+    .info-modal__dialog main .offer h2 {
+        font-size: 18px;
+    }
+
+    .info-modal__dialog main .offer p {
+        font-size: 13px;
+    }
+
+    .info-modal__dialog main .offer .offer-group-btn {
+        width: 100%;
+        height: 55px;
+        position: absolute;
+        bottom: 10px;
+        left: 0;
+    }
+
+    .info-modal__dialog main .offer .offer-group-btn .sold-offer {
+        width: 100%;
+        height: 100%;
+        text-align: center;
+    }
+
+
+
+
+    ._modal__dialog {
+        position: relative;
+        width: 100%;
+        height: 90%;
+        border-radius: 0;
+        border: none;
+    }
+
+    ._modal__dialog main {
+        width: 100%;
+        height: calc(100% - 100px);
+    }
+
+    ._modal__dialog main button {
+        height: 60px;
+    }
+
+    ._modal__dialog .chooser-block {
+        width: 100%;
+        height: 100%;
+        padding: 0 0 0 7.5%;
+    }
+
+    ._modal__dialog .photo-block {
+        width: 170px;
+        height: 110px;
+        margin: 10px;
+    }
+
 }

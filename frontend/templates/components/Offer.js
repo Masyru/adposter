@@ -2,7 +2,7 @@ import React from "react";
 import "../styles/Offer.css";
 import { InputGroup, FormControl, Button, Alert } from "react-bootstrap";
 import PhotoChooser from "./Photo-chooser";
-import { setHideBodyOverflow } from "./Utils";
+import { setHideBodyOverflow, MobileScreenOn } from "./Utils";
 
 const __default = {
     title: '',
@@ -16,6 +16,7 @@ const __default = {
     FB: 'Перед',
     oem: '',
     producer: '',
+    producer_code: '',
     description: '',
     s_presence: 'в наличии',
     price: '',
@@ -41,6 +42,7 @@ class Part extends React.Component{
             FB: 'Перед',
             oem: '',
             producer: '',
+            producer_code: '',
             description: '',
             s_presence: 'в наличии',
             price: '',
@@ -138,8 +140,7 @@ class Part extends React.Component{
                 {/*<label htmlFor="f" className={'mt-3'}>Вид: </label>*/}
                 {/*<select className="selectpicker mb-3" id={'f'} name={'f'}>*/}
                 {/*    {*/}
-                {/*        ['автомоби
-                ль', 'спец.техника'].map((obj, i) => <option key={i}>{obj}</option>)*/}
+                {/*        ['автомобиль', 'спец.техника'].map((obj, i) => <option key={i}>{obj}</option>)*/}
                 {/*    }*/}
                 {/*</select>*/}
 
@@ -206,17 +207,17 @@ class Part extends React.Component{
                 <br />
                 <select className="selectpicker mb-3 col-4" id='LR'>
                     {
-                        ['Право', 'Лево', '-'].map((obj, i) => <option key={i}>{obj}</option>)
+                        ['-', 'Право', 'Лево'].map((obj, i) => <option key={i}>{obj}</option>)
                     }
                 </select>
                 <select className="selectpicker mb-3 col-4" id='UD'>
                     {
-                        ['Верх', 'Низ', '-'].map((obj, i) => <option key={i}>{obj}</option>)
+                        ['-', 'Верх', 'Низ'].map((obj, i) => <option key={i}>{obj}</option>)
                     }
                 </select>
                 <select className="selectpicker mb-3 col-4" id='FB'>
                     {
-                        ['Перед', 'Зад', '-'].map((obj, i) => <option key={i}>{obj}</option>)
+                        ['-', 'Перед', 'Зад'].map((obj, i) => <option key={i}>{obj}</option>)
                     }
                 </select>
 
@@ -241,6 +242,18 @@ class Part extends React.Component{
                         aria-describedby="basic-addon3"
                         value={st.producer}
                         onChange={e => this.setState({producer : e.target.value})}
+                    />
+                </InputGroup>
+
+                <InputGroup className='mb-3' style={{
+                    width: '100%'
+                }}>
+                    <FormControl
+                        title={'Если нет кода, то передавать пустое поле'}
+                        placeholder="Код производителя запчасти"
+                        aria-describedby="basic-addon3"
+                        value={st.producer_code}
+                        onChange={e => this.setState({producer_code : e.target.value})}
                     />
                 </InputGroup>
 
@@ -271,6 +284,8 @@ class Part extends React.Component{
                     <FormControl
                         required
                         placeholder="Цена"
+                        title="В цифрах, без пробелов; для товара, поставляемого под заказ и находящегося в пути,
+                                необходимо указывать конечную цену с учетом доставки, таможенных платежей и пр."
                         aria-describedby="basic-addon3"
                         type={'number'}
                         value={st.price }
@@ -643,6 +658,8 @@ class Car extends React.Component{
                     <FormControl
                         required
                         placeholder="Цена"
+                        title="В цифрах, без пробелов; для товара, поставляемого под заказ и находящегося в пути,
+                                необходимо указывать конечную цену с учетом доставки, таможенных платежей и пр."
                         aria-describedby="basic-addon3"
                         type={'number'}
                         value={st.price }
@@ -710,7 +727,16 @@ export default class Offer extends React.Component{
         }
     }
 
+    setMobileToSelectPicker(){
+        if(MobileScreenOn()){
+           let selects = $(".selec");
+
+        }
+    }
+
     render() {
+
+        this.setMobileToSelectPicker();
 
         let offer =
             <>
@@ -733,7 +759,7 @@ export default class Offer extends React.Component{
 
                     {
                         this.state.unfilled ?
-                            <Alert className={'my-5'} variant="danger" onClose={() => this.setState({error: false})} dismissible>
+                            <Alert className={'my-5'} variant="danger" onClose={() => this.setState({unfilled: false})} dismissible>
                                 <Alert.Heading>Проверьте поля ввода</Alert.Heading>
                                 <p>
                                   Не все поля заполненны. <br/>
@@ -766,17 +792,6 @@ export default class Offer extends React.Component{
                         </Button>
                     </InputGroup>
 
-                    <Car
-                        show={this.state.mode === 1}
-                        onSuccess={() => {
-                            window.scrollTo(0, 0);
-                            this.setState({uploaded: true, mode: null})
-                        }}
-                        onError={() => {
-                            window.scrollTo(0, 0);
-                            this.setState({unfilled: true})
-                        }}
-                    />
                     <Part
                         show={this.state.mode === 2}
                         onSuccess={() => {
@@ -788,6 +803,19 @@ export default class Offer extends React.Component{
                             this.setState({unfilled: true})
                         }}
                     />
+
+                    <Car
+                        show={this.state.mode === 1}
+                        onSuccess={() => {
+                            window.scrollTo(0, 0);
+                            this.setState({uploaded: true, mode: null})
+                        }}
+                        onError={() => {
+                            window.scrollTo(0, 0);
+                            this.setState({unfilled: true})
+                        }}
+                    />
+
 
                 </div>
             </>;

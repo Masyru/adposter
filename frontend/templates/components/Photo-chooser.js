@@ -12,26 +12,29 @@ class Cards extends React.Component{
             <div className='chooser-block'>
                 <Row>
                     {
-                        props.data.map((obj, i) =>
-                            <div
-                                key={i}
-                                className="photo-block"
-                                style={{
-                                    backgroundColor: '#eaeaea',
-                                    backgroundImage: `url('/public/uploads/${obj}')`,
-                                    backgroundSize: 'contain',
-                                    backgroundPosition: 'center center',
-                                    backgroundRepeat: 'no-repeat',
-                                }}
-                                onClick={() => props.countCard(obj)}>
-                                {
-                                    props.chosen_img.includes(obj) ?
-                                        <img src="/public/img/check.svg" alt="Выбран"/>
-                                        :
-                                        <img src="/public/img/circle-shape.svg" alt="Не выбран"/>
-                                }
-                            </div>
-                        )
+                        props.data.length ?
+
+                            props.data.map((obj, i) =>
+                                <div
+                                    key={i}
+                                    className="photo-block"
+                                    style={{
+                                        backgroundColor: '#eaeaea',
+                                        backgroundImage: `url('/public/uploads/${obj}')`,
+                                        backgroundSize: 'contain',
+                                        backgroundPosition: 'center center',
+                                        backgroundRepeat: 'no-repeat',
+                                    }}
+                                    onClick={() => props.countCard(obj)}>
+                                    {
+                                        props.chosen_img.includes(obj) ?
+                                            <img src="/public/img/check.svg" alt="Выбран"/>
+                                            :
+                                            <img src="/public/img/circle-shape.svg" alt="Не выбран"/>
+                                    }
+                                </div>
+                            ) : null
+
                     }
                 </Row>
             </div>
@@ -125,7 +128,8 @@ export default class PhotoChooser extends React.Component{
             <div className="_modal" onClick={this.props.onHide}>
                 <div className="_modal__dialog" onClick={e => e.stopPropagation()}>
                     <header>
-                        {this.state.chosen.length} из {this.amountPhoto}
+                        Выбрано: {this.state.chosen.length}
+                        <img src="/public/img/close1.svg" alt="Закрыть окно" onClick={this.props.onHide}/>
                     </header>
                     <main>
                         {

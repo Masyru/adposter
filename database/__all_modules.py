@@ -106,6 +106,7 @@ class Offer(SqlAlchemyBase):
     kuzov = sqlalchemy.Column(sqlalchemy.String, default='')
     oem = sqlalchemy.Column(sqlalchemy.String, default='')
     producer = sqlalchemy.Column(sqlalchemy.String, default='')
+    producer_code = sqlalchemy.Column(sqlalchemy.String, default='')
     date = sqlalchemy.Column(sqlalchemy.String, default=time)
 
     @staticmethod
@@ -154,6 +155,7 @@ class Offer(SqlAlchemyBase):
             o.kuzov = data['kuzov']
             o.oem = data['oem']
             o.producer = data['producer']
+            o.producer_code = data['producer_code']
             o.used = data['used']
             o.price = int(data['price'])
             o.photos = ', '.join(data['photos'])
@@ -188,6 +190,7 @@ class Offer(SqlAlchemyBase):
                 'privod': obj.privod,
                 'pts_record': obj.pts_record,
                 'used': obj.used,
+                's_presence': obj.s_presence,
                 'price': obj.price,
                 'location': obj.location,
                 'photos': obj.photos.split(', ') if len(obj.photos.split(', ')) else [],
@@ -218,7 +221,9 @@ class Offer(SqlAlchemyBase):
                 'kuzov': obj.kuzov,
                 'oem': obj.oem,
                 'producer': obj.producer,
+                'producer_code': obj.producer_code,
                 'used': obj.used,
+                's_presence': obj.s_presence,
                 'price': obj.price,
                 'photos': obj.photos.split(', ') if len(obj.photos.split(', ')) else [],
                 'created_date': obj.date

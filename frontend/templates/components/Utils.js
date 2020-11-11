@@ -8,3 +8,8 @@ export function setHideBodyOverflow(bool) {
         document.getElementsByTagName('html')[0].style = 'overflow-y: auto !important';
     }
 }
+
+export function MobileScreenOn() {
+    let size = window.screen.width;
+    return size <= 800
+}

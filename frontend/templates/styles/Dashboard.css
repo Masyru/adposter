@@ -5,10 +5,9 @@
 	font-family: 'Roboto', sans-serif;
 	display: flex;
 	align-items: center;
-	justify-content: center;
 	flex-direction: column;
-    max-height: 100vh;
-    overflow-y: auto;
+    height: calc(100vh - 60px);
+	overflow-y: auto;
 	margin: 0;
 }
 
@@ -16,7 +15,6 @@
 	height: 50px;
 	width: 100%;
 	display: flex;
-	margin-bottom: 20px;
 }
 
 .create-offer-btn a {

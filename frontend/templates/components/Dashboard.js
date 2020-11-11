@@ -115,8 +115,8 @@ class Card extends React.Component{
                                     <h6>Кол-во: {obj.amount || 1}</h6>
                                     <h2>{obj.title}</h2>
                                     <p>{obj.description}</p>
+                                    <span className="price">{ obj.price ? 'Договорная' : `${obj.price} ₽`}</span>
                                 </div>
-                                <div className="price">{ obj.price ? 'Договорная' : `${obj.price} ₽`}</div>
                             </div>)
                             :
                                     <div style={{

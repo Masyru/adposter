@@ -1,4 +1,5 @@
 import React from "react";
+import { MobileScreenOn, setHideBodyOverflow } from "./Utils";
 
 function setCookie(name, value, options = {}) {
 
@@ -25,9 +26,31 @@ function setCookie(name, value, options = {}) {
   document.cookie = updatedCookie;
 }
 
+export class Burger extends React.Component {
+
+    render(){
+        let burger =
+            <div className='burger-nav'>
+                <header>
+                    <button onClick={() => this.props.onHide()}><i className="fa fa-long-arrow-left" aria-hidden="true"></i> Назад</button>
+                </header>
+                <main>
+                    <a href="/dashboard">Главная</a>
+                    <a href="/library">Библиотека</a>
+                </main>
+            </div>;
+
+        return(burger);
+    }
+}
+
 export default class Navbar extends React.Component{
     constructor(props) {
         super(props);
+        this.state = {
+            showBurger: false,
+        }
+
         this.deleteCookie = this.deleteCookie.bind(this);
     }
 
@@ -71,16 +94,30 @@ export default class Navbar extends React.Component{
     }
 
     render() {
-        return(
+
+        let navbar = MobileScreenOn() ?
+            <div className="container-fluid">
+                <ul className="nav navbar-nav">
+                    <li>
+                        <a onClick={() => this.setState({ showBurger: true })} style={{ fontSize: '16px' }}>
+                            <i className="zmdi zmdi-view-headline"></i>
+                        </a>
+                    </li>
+                    <li style={{marginLeft: 'auto'}}><a href="/">Выйти</a></li>
+                </ul>
+                {
+                    this.state.showBurger ? <Burger onHide={() => this.setState({ showBurger: false })}/> : null
+                }
+            </div>
+            :
             <div className="container-fluid">
                 <ul className="nav navbar-nav navbar-right">
-                    {/*<li>*/}
-                    {/*    <a href="#"><i className="zmdi zmdi-notifications"></i>*/}
-                    {/*    </a>*/}
-                    {/*</li>*/}
                     <li><a href="/">Выйти</a></li>
                 </ul>
-            </div>
+            </div>;
+
+        return(
+            navbar
         )
     }
 }

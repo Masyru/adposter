@@ -54,14 +54,7 @@ export default class Navbar extends React.Component{
         this.deleteCookie = this.deleteCookie.bind(this);
     }
 
-    deleteCookie(){
-        setCookie('token', "", {
-            'max-age': -1
-        })
-    }
-
     exit(){
-        const _this = this;
         fetch('/logout',
        {
                 method: 'GET',
@@ -85,8 +78,9 @@ export default class Navbar extends React.Component{
                 response.json().then(
                     function(data) {
                         // Doing something with response
-                        _this.deleteCookie();
-                        window.location.href = '/';
+                        if(data){
+                            window.location.href = '/';
+                        }
                     });
             }).catch(function (error) {
                 console.log('error: ', error);
@@ -103,7 +97,7 @@ export default class Navbar extends React.Component{
                             <i className="zmdi zmdi-view-headline"></i>
                         </a>
                     </li>
-                    <li style={{marginLeft: 'auto'}}><a href="/">Выйти</a></li>
+                    <li style={{marginLeft: 'auto'}}><a href=" " onClick={this.exit}>Выйти</a></li>
                 </ul>
                 {
                     this.state.showBurger ? <Burger onHide={() => this.setState({ showBurger: false })}/> : null
@@ -112,7 +106,7 @@ export default class Navbar extends React.Component{
             :
             <div className="container-fluid">
                 <ul className="nav navbar-nav navbar-right">
-                    <li><a href="/">Выйти</a></li>
+                    <li><a href=" " onClick={this.exit}>Выйти</a></li>
                 </ul>
             </div>;
 

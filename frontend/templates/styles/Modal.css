@@ -247,7 +247,7 @@
 
 /* Mobile version */
 
-@media screen and (max-width: 800px) and (min-height: 650px) {
+@media screen and (max-width: 900px) {
     .info-modal__dialog {
         background-color: white;
         max-width: 100%;

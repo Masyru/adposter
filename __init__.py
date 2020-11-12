@@ -131,7 +131,7 @@ def upload():
                     try:
                         if file.filename in excludes:
                             continue
-                        filename = f"{str(time.time()).split('.')[0]}.{file.filename.rsplit('.', 1)[1]}"
+                        filename = "{}.{}".format(str(time.time()).split('.')[0], file.filename.rsplit('.', 1)[1])
                         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
                         global_vars[str(request.cookies.get('token'))] = True
                         save_json_to_file(global_vars)

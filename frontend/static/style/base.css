@@ -83,7 +83,11 @@ html, body {
 
 /* Mobile version */
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 800px) and (min-height: 650px) {
+
+  #viewport {
+    height: calc(100vh - 10%);
+  }
 
   #sidebar {
     display: none;

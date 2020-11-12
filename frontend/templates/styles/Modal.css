@@ -252,6 +252,7 @@
         background-color: white;
         max-width: 100%;
         min-width: 375px;
+        min-height: 650px;
         height: calc(100vh - 20%);
         border-radius: 0;
         border: none;
@@ -322,6 +323,7 @@
         position: relative;
         width: 100%;
         min-width: 375px;
+        min-height: 650px;
         height: calc(100vh - 20%);
         border-radius: 0;
         border: none;

@@ -51,7 +51,7 @@
 
         hash_session = getCookie('token');
         if(hash_session){
-            fetch('/check_cookie/' + hash_session,
+            fetch('/check_cookie',
                 {
                     method: 'get',
                     headers: {

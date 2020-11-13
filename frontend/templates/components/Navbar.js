@@ -50,8 +50,6 @@ export default class Navbar extends React.Component{
         this.state = {
             showBurger: false,
         }
-
-        this.deleteCookie = this.deleteCookie.bind(this);
     }
 
     exit(){
@@ -89,6 +87,8 @@ export default class Navbar extends React.Component{
 
     render() {
 
+        console.log(MobileScreenOn());
+
         let navbar = MobileScreenOn() ?
             <div className="container-fluid">
                 <ul className="nav navbar-nav">
@@ -97,7 +97,7 @@ export default class Navbar extends React.Component{
                             <i className="zmdi zmdi-view-headline"></i>
                         </a>
                     </li>
-                    <li style={{marginLeft: 'auto'}}><a href=" " onClick={this.exit}>Выйти</a></li>
+                    <li style={{marginLeft: 'auto'}}><a onClick={this.exit}>Выйти</a></li>
                 </ul>
                 {
                     this.state.showBurger ? <Burger onHide={() => this.setState({ showBurger: false })}/> : null
@@ -106,7 +106,7 @@ export default class Navbar extends React.Component{
             :
             <div className="container-fluid">
                 <ul className="nav navbar-nav navbar-right">
-                    <li><a href=" " onClick={this.exit}>Выйти</a></li>
+                    <li><a href={''} onClick={this.exit}>Выйти</a></li>
                 </ul>
             </div>;
 

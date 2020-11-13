@@ -48,6 +48,11 @@
 	opacity: 0.9;
 	letter-spacing: 1px;
 	margin: 10px 0 20px 0;
+	max-height: 235px;
+	overflow: hidden;
+	display: -webkit-box;
+	-webkit-line-clamp: 10;
+	-webkit-box-orient: vertical;
 }
 
 .course-preview {

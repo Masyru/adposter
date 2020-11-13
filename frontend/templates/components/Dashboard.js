@@ -103,18 +103,27 @@ class Card extends React.Component{
                     this.props.data.length ?
                         this.props.data.map((obj, i) =>
                             <div className="course" key={i} onClick={() => this.props.setInfo(obj)}>
-                                <div className="course-preview" style={{
-                                    backgroundImage: `url('/public/uploads/${obj.photos.length && obj.photos[0]}')`,
+                                <div className="course-preview" style={ obj.photos.length ? {
+                                    backgroundImage: `url('/public/uploads/${obj.photos[0]}')`,
                                     backgroundPosition: 'center center',
                                     backgroundSize: 'cover',
-                                }}>
+                                } : null }>
                                     <h6>Главное фото</h6>
                                     <a href="#">Посмотреть все <i className="fa fa-angle-right" aria-hidden="true"></i></a>
                                 </div>
                                 <div className="course-info">
                                     <h6>Кол-во: {obj.amount || 1}</h6>
                                     <h2>{obj.title}</h2>
-                                    <p>{obj.description}</p>
+                                    <p>
+                                        {
+                                            obj.description.split('\n')
+                                                .map((text, j) =>
+                                                    <>
+                                                        {text}<br />
+                                                    </>
+                                                )
+                                        }
+                                    </p>
                                     <span className="price">{ obj.price ? 'Договорная' : `${obj.price} ₽`}</span>
                                 </div>
                             </div>)

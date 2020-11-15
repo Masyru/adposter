@@ -50,15 +50,21 @@ def index():
     if request.method == 'POST':
         login = request.form['login']
         password = request.form['password']
-        if Login.check_login(session, login, password):
-            cookie = Cookie.create_cookie(session)
-            if cookie is None:
-                return redirect(url_for('index'))
-            red = redirect(url_for('dashboard'))
-            red.set_cookie('token', cookie, max_age=60 * 60 * 24 * 30)
-            global_vars[str(cookie)] = {}
-            save_json_to_file(global_vars)
-            return red
+        # try:
+        try:
+            if Login.check_login(session, login, password):
+                cookie = Cookie.create_cookie(session)
+                if cookie is None:
+                    return redirect(url_for('index'))
+                red = redirect(url_for('dashboard'))
+                red.set_cookie('token', cookie, max_age=60 * 60 * 24 * 30)
+                global_vars[str(cookie)] = {}
+                save_json_to_file(global_vars)
+                return red
+            return redirect(url_for('index'))
+        except AttributeError as err:
+            print(err)
+            return redirect(url_for('index'))
     elif request.method == 'GET':
         return render_template('login.html')
     else:

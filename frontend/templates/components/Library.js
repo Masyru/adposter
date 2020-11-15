@@ -48,7 +48,7 @@ export class Modal extends React.Component{
 
     render() {
         let modal =
-            <div className={`_modal`}  onClick={this.props.onHide}>
+            <div className={`_modal library-modal`}  onClick={this.props.onHide}>
                 <div className="_modal__dialog" onClick={event => event.stopPropagation()}>
                     {
                         this.props.mode ?

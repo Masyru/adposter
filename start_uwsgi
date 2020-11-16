@@ -1,0 +1,8 @@
+#!/bin/bash
+
+cd /home/adposter
+source ./env/bin/activate
+echo "<----------- Перешли в adposter в виртуальную оболочку"
+nohup uwsgi --socket 127.0.0.1:8080 --protocol=http -w wsgi:app &
+echo "<----------- Запущен wsgi"
+exit 0

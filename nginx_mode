@@ -10,9 +10,10 @@ then
 elif [[ "$arg" -eq 2 ]]
 then
 	sudo systemctl restart adposter;
+	echo
 	sudo systemctl restart nginx;
 	echo "[restart] - adposter перезапущен"
-elif [[ "$arg" -eq 3 ]
+elif [[ "$arg" -eq 3 ]]
 then
 	sudo systemctl status nginx;
 	sudo systemctl status adposter;

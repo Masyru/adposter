@@ -113,7 +113,6 @@ def offer():
             existed = check_cookie(token=request.cookies.get('token'))
             if existed:
                 data = request.get_json(force=True)
-                print(data['state'])
                 if int(data['state']) == 1:
                     Offer.add_auto(session, data)
                 elif int(data['state']) == 2:
@@ -192,7 +191,7 @@ def logout():
     try:
         Cookie.delete_cookie(session, request.cookies.get('token'))
     except Exception as err:
-        print(err, '\n\n----------------------------> when logout')
+        print("In logout GET:", err)
     return dumps(True)
 
 

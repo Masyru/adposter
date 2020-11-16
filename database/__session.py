@@ -12,6 +12,7 @@ __factory = None
 
 def create_session() -> Session:
     global __factory
+    print("Connection was reached")
     return __factory()
 
 
@@ -91,4 +92,3 @@ def global_init(db_file):
     __factory = orm.sessionmaker(bind=engine)
 
     SqlAlchemyBase.metadata.create_all(engine)
-    print("Connection was reached")

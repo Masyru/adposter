@@ -12,6 +12,11 @@ then
 	sudo systemctl restart adposter;
 	sudo systemctl restart nginx;
 	echo "[restart] - adposter перезапущен"
+elif [[ "$arg" -eq 3 ]
+then
+	sudo systemctl status nginx;
+	sudo systemctl status adposter;
+	echo "[status] - adposter статус"
 else
 	sudo systemctl stop adposter;
 	sudo systemctl stop nginx;

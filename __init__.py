@@ -78,7 +78,7 @@ def dashboard():
         if fetch:
             try:
                 resp = Offer.get_auto(session)
-                resp += Offer.get_parts(session)
+                resp += Offer.get_part(session)
                 resp.sort(key=lambda x: int(float(x['created_date'])))
                 return dumps(resp)
             except Exception as err:

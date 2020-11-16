@@ -74,6 +74,15 @@ class Part extends React.Component{
             };
             // Берем значения с selectpicker'ов
             data.title = $("button[data-id='title']")[0].title;
+
+            let firm_model = $("button[data-id='title']")[0].title;
+            data.firm = firm_model.split(' ')[0];
+            data.model = '-';
+            if(firm_model.split(' ').length > 1){
+                data.model = firm_model.split(' ')[1];
+            }
+
+
             data.name = $("button[data-id='name']")[0].title;
             data.used = $("button[data-id='used']")[0].title;
             data.LR = $("button[data-id='LR']")[0].title;

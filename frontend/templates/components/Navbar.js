@@ -87,8 +87,6 @@ export default class Navbar extends React.Component{
 
     render() {
 
-        console.log(MobileScreenOn());
-
         let navbar = MobileScreenOn() ?
             <div className="container-fluid">
                 <ul className="nav navbar-nav">

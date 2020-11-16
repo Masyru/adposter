@@ -200,7 +200,7 @@ class Offer(SqlAlchemyBase):
         return list(resp)
 
     @staticmethod
-    def get_parts(session):
+    def get_part(session):
         o = session.query(Offer).filter(Offer.type_offer == 2).all()
         if o is None:
             return []

@@ -42,36 +42,37 @@ def global_init(db_file):
                         date            STRING
                     );""")
         cur.execute("""CREATE TABLE offers (
-                        id           INTEGER NOT NULL,
-                        type_offer   INTEGER,
-                        title        VARCHAR,
-                        firm         VARCHAR,
-                        model        VARCHAR,
-                        description  TEXT,
-                        year         INTEGER,
-                        volume       INTEGER,
-                        fuel_type    VARCHAR,
-                        transmission VARCHAR,
-                        probegrf     INTEGER,
-                        probeg       INTEGER,
-                        rul          VARCHAR,
-                        privod       VARCHAR,
-                        pts_record   VARCHAR,
-                        used         VARCHAR,
-                        price        INTEGER,
-                        currency     VARCHAR,
-                        s_presence   VARCHAR,
-                        location     VARCHAR,
-                        photos       VARCHAR,
-                        date         VARCHAR,
-                        dvs          STRING  DEFAULT NULL,
-                        UD           STRING  DEFAULT NULL,
-                        FB           STRING  DEFAULT NULL,
-                        LR           STRING  DEFAULT NULL,
-                        kuzov        STRING  DEFAULT NULL,
-                        oem          STRING  DEFAULT NULL,
-                        producer     STRING  DEFAULT NULL,
-                        engine       STRING  DEFAULT NULL,
+                        id            INTEGER NOT NULL,
+                        type_offer    INTEGER,
+                        title         VARCHAR,
+                        firm          VARCHAR,
+                        model         VARCHAR,
+                        description   TEXT,
+                        year          INTEGER,
+                        volume        INTEGER,
+                        fuel_type     VARCHAR,
+                        transmission  VARCHAR,
+                        probegrf      INTEGER,
+                        probeg        INTEGER,
+                        rul           VARCHAR,
+                        privod        VARCHAR,
+                        pts_record    VARCHAR,
+                        used          VARCHAR,
+                        price         INTEGER,
+                        currency      VARCHAR,
+                        s_presence    VARCHAR,
+                        location      VARCHAR,
+                        photos        VARCHAR,
+                        date          VARCHAR,
+                        dvs           STRING  DEFAULT NULL,
+                        UD            STRING  DEFAULT NULL,
+                        FB            STRING  DEFAULT NULL,
+                        LR            STRING  DEFAULT NULL,
+                        kuzov         STRING  DEFAULT NULL,
+                        oem           STRING  DEFAULT NULL,
+                        producer      STRING  DEFAULT NULL,
+                        producer_code STRING  DEFAULT NULL,
+                        engine        STRING  DEFAULT NULL,
                         PRIMARY KEY (
                             id
                         ),
@@ -86,7 +87,7 @@ def global_init(db_file):
     conn_str = f'sqlite:///{db_file.strip()}?check_same_thread=False'
     print(f"Подключение к базе данных по адресу {conn_str}")
 
-    engine = sa.create_engine(conn_str, echo=False, pool_size=20, max_overflow=20)
+    engine = sa.create_engine(conn_str, echo=False)
     __factory = orm.sessionmaker(bind=engine)
 
     SqlAlchemyBase.metadata.create_all(engine)

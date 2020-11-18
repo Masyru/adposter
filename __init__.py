@@ -89,11 +89,7 @@ def dashboard():
 
 @app.route('/library', methods=['GET'])
 def library():
-    if global_vars[str(request.cookies.get('token'))] is not None and global_vars[str(request.cookies.get('token'))]:
-        global_vars[str(request.cookies.get('token'))] = False
-        save_json_to_file(global_vars)
-        return render_template('index.html', title='Библиотека фото / AdPoster', path='/public/js/library.js', success=True, uploader=True)
-    return render_template('index.html', title='Библиотека фото / AdPoster', path='/public/js/library.js', success=False, uploader=True)
+    return render_template('index.html', title='Библиотека фото / AdPoster', path='/public/js/library.js')
 
 
 # @app.route('/account', methods=['GET'])

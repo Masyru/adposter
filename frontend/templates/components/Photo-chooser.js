@@ -145,7 +145,7 @@ export default class PhotoChooser extends React.Component{
                                 <Cards data={this.state.photos} countCard={this.countCard} chosen_img={this.state.chosen}/>
                         }
                     </main>
-                    <button type={'button'} onClick={() => {
+                    <button type={'button'} className={'my-btn'} onClick={() => {
                         this.props.setPhotos(this.state.chosen);
                         this.props.onHide();
                     }}>

@@ -47,28 +47,29 @@ export class Modal extends React.Component{
     }
 
     render() {
-        let modal =
+        let modal = this.props.mode ?
+            <div className={`_modal downloader`}  onClick={this.props.onHide}>
+                <div className="_modal__dialog" onClick={event => event.stopPropagation()}>
+                   <Upload />
+                </div>
+            </div>
+                    :
             <div className={`_modal library-modal`}  onClick={this.props.onHide}>
                 <div className="_modal__dialog" onClick={event => event.stopPropagation()}>
-                    {
-                        this.props.mode ?
-                            <Upload />
-                            :
-                            <div className='photo-modal'>
-                                <img src={`/public/uploads/${this.props.data.url}`} alt="Изображение не загрузилось" className="photo-modal__picture"/>
-                                <div className="photo-modal__description">
-                                    <span className="date">
-                                        Дата загрузки: {new Date(this.props.data.datetime * 1000).toISOString().split('.')[0].split('T').join(' ')}
-                                    </span>
-                                    <br />
-                                    <span className="where">
-                                        Объявления: <span style={{fontWeight: '300', lineHeight: '1.1'}}>{this.props.data.offers.join('; ') || 'Пусто'}</span>
-                                    </span>
-                                    <br />
-                                    <Button variant={'danger'} className={'mt-5'} size={'sm'} onClick={() => this.deleteImage(this.props.data.url)}>Удалить изображение</Button>
-                                </div>
+                        <div className='photo-modal'>
+                            <img src={`/public/uploads/${this.props.data.url}`} alt="Изображение не загрузилось" className="photo-modal__picture"/>
+                            <div className="photo-modal__description">
+                                <span className="date">
+                                    Дата загрузки: {new Date(this.props.data.datetime * 1000).toISOString().split('.')[0].split('T').join(' ')}
+                                </span>
+                                <br />
+                                <span className="where">
+                                    Объявления: <span style={{fontWeight: '300', lineHeight: '1.1'}}>{this.props.data.offers.join('; ') || 'Пусто'}</span>
+                                </span>
+                                <br />
+                                <Button variant={'danger'} className={'mt-5'} size={'sm'} onClick={() => this.deleteImage(this.props.data.url)}>Удалить изображение</Button>
                             </div>
-                    }
+                        </div>
                 </div>
             </div>;
 

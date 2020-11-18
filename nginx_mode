@@ -3,7 +3,7 @@ arg=$1
 
 if [[ "$arg" -eq 1 ]]
 then
-	sudo service nginx start;
+	sudo systemctl start nginx;
 	sudo systemctl start adposter;
 	sudo systemctl enable adposter;
 	echo "[run] - adposter запущен"

@@ -156,6 +156,7 @@ class Part extends React.Component{
                 <select className="selectpicker mb-3" id={'title'} name={'title'} mobile="true" data-live-search="true">
                     {
                         <optgroup label="Марки авто" key={10000}>
+                                <option key={0}>Не выбрано</option>
                                 {
                                     Object.keys(models).map((obj, j) =>
                                         <option title={obj} key={j + 10000}>{obj}</option>
@@ -177,6 +178,7 @@ class Part extends React.Component{
 
                 <label htmlFor="name" className={'mt-3'}>Название запчасти: </label>
                 <select className="selectpicker mb-3" id={'name'} name={'name'} mobile="true" data-live-search="true">
+                    <option key={0}>Не выбрано</option>
                     {
                         parts.map((obj, i) => <option key={i}>{obj}</option>)
                     }
@@ -529,6 +531,7 @@ class Car extends React.Component{
 
                 <label htmlFor="firm_model" className={'mt-3'}>Фирма и модель авто: </label>
                 <select className="selectpicker mb-3" id={'firm_model'} name={'firm_model'} mobile="true" data-live-search="true">
+                    <option key={0}>Не выбрано</option>
                     {
                         Object.keys(models).map((title, i) =>
                             <optgroup label={title} key={i}>

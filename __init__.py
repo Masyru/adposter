@@ -140,8 +140,7 @@ def upload():
                     except Exception as err:
                         print(err)
                         continue
-                else:
-                    return dumps(False)
+              
             return redirect(url_for('library'))
     elif request.method == 'GET':
         existed = check_cookie(request.cookies.get('token'))

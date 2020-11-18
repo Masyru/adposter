@@ -29,8 +29,8 @@ Login.add_account(session, 'admin', 'admin')
 
 
 # check permission to upload file
-def allowed_file(filename):
-    return '.' in filename and filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
+def allowed_file(filename: str):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
 @app.route('/check_cookie', methods=['GET'])
@@ -132,7 +132,7 @@ def upload():
                     try:
                         if file.filename in excludes:
                             continue
-                        filename = "{}.{}".format(str(time.time()).split('.')[0], file.filename.rsplit('.', 1)[1])
+                        filename = "{}.{}".format(str(time.time()).split('.')[0], file.filename.rsplit('.', 1)[1].lower())
                         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
                         global_vars[str(request.cookies.get('token'))] = True
                         save_json_to_file(global_vars)

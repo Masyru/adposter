@@ -281,6 +281,7 @@
         height: 35px;
         margin: 5px;
         position: relative;
+        border-radius: 0 !important;
     }
 
     .info-modal__dialog header img {
@@ -343,8 +344,12 @@
         min-width: 375px;
         min-height: 650px;
         height: calc(100vh - 20%);
-        border-radius: 0;
+        border-radius: 0 !important;
         border: none;
+    }
+
+    ._modal__dialog button {
+        border-radius: 0 !important;
     }
 
     ._modal__dialog main {

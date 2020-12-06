@@ -1,6 +1,8 @@
 from openpyxl import load_workbook
 from json import dump
 
+# Parse the xlsx files from japancar with models and firm
+
 def parse_first():
     # Load in the workbook
     wb = load_workbook('./1.xlsx')
@@ -33,5 +35,3 @@ def parse_second():
     with open('./parts.json', 'w') as fout:
         dump(rest, fout)
 
-
-parse_second()

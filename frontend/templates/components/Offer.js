@@ -76,10 +76,10 @@ class Part extends React.Component{
             data.title = $("button[data-id='title']")[0].title;
 
             let firm_model = $("button[data-id='title']")[0].title;
-            data.firm = firm_model.split(' ')[0];
+            data.firm = firm_model.split('-')[0];
             data.model = '-';
-            if(firm_model.split(' ').length > 1){
-                data.model = firm_model.split(' ')[1];
+            if(firm_model.split('-').length > 1){
+                data.model = firm_model.split('-')[1];
             }
 
 
@@ -169,7 +169,7 @@ class Part extends React.Component{
                             <optgroup label={title} key={i}>
                                 {
                                     models[title].map((obj, j) =>
-                                        <option title={`${title} ${obj}`} key={j + 4200}>{obj}</option>
+                                        <option title={`${title}-${obj}`} key={j + 4200}>{obj}</option>
                                     )
                                 }
                             </optgroup>)
@@ -449,8 +449,8 @@ class Car extends React.Component{
             data.fuel_type = $("button[data-id='fuel_type']")[0].title;
 
             let firm_model = $("button[data-id='firm_model']")[0].title;
-            data.firm = firm_model.split(' ')[0];
-            data.model = firm_model.split(' ')[1];
+            data.firm = firm_model.split('-')[0];
+            data.model = firm_model.split('-')[1];
 
             data.transmission = $("button[data-id='transmission']")[0].title;
             data.rul = $("button[data-id='rul']")[0].title;
@@ -537,7 +537,7 @@ class Car extends React.Component{
                             <optgroup label={title} key={i}>
                                 {
                                     models[title].map((obj, j) =>
-                                        <option title={`${title} ${obj}`} key={j + 4200}>{obj}</option>
+                                        <option title={`${title}-${obj}`} key={j + 4200}>{obj}</option>
                                     )
                                 }
                             </optgroup>)

@@ -1,5 +1,6 @@
 import time
 
+from subprocess import Popen
 from flask import Flask, render_template, redirect, url_for, request, abort
 from settings import UPLOADS, ALLOWED_EXTENSIONS
 from database.__all_modules import Login, Cookie, Offer
@@ -113,6 +114,10 @@ def offer():
                     Offer.add_auto(session, data)
                 elif int(data['state']) == 2:
                     Offer.add_part(session, data)
+
+                # Generate xml
+                Popen(['python3', './services/japancar.py'])
+
                 return dumps(True)
         except Exception as err:
             print("In offer POST:", err)
@@ -170,6 +175,8 @@ def delete_offer():
             if request.args.get("type") == 'offer':
                 _id = int(request.args.get('id'))
                 Offer.delete_offer(session, _id)
+                # Generate xml
+                Popen(['python3', './services/japancar.py'])
             elif request.args.get("type") == 'image':
                 name = request.args.get('name')
                 if os.path.isfile(os.path.join(UPLOADS, name)):

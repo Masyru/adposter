@@ -4,6 +4,7 @@ from database.__all_modules import Offer
 from database.__session import create_session, global_init
 
 root = create_node('japancarru_import_data')
+root_for_part = create_node('japancarru_import_data')
 
 # Dealer info
 dealer = create_node('dealer')
@@ -12,17 +13,18 @@ dealer_info = {
     'name': 'ИП Филюкова Ирина Алексеевна',
     'address': 'Владивосток, улица Сабанеева 14в, 42',
     'email': 'razborka80-100@mail.ru',
-
 }
 
 for item in dealer_info.keys():
     dealer.append(create_node(item, str(dealer_info[item])))
 
 root.append(dealer)
+root_for_part.append(dealer)
 
 # Connect to database
 
-global_init("../database/database.db")
+# It works only if runs in __init__ in app
+global_init("database/database.db")
 session = create_session()
 
 offers = Offer.get_auto(session)
@@ -30,9 +32,12 @@ parts = Offer.get_part(session)
 
 session.close()
 
-# Offers from database
+# Create offers
 
 data_list = ElementTree.SubElement(root, 'data_list')
+part_list = ElementTree.SubElement(root_for_part, 'data_list')
+
+# Offers from database
 
 for offer in offers:
     data = ElementTree.SubElement(data_list, 'data')
@@ -66,7 +71,7 @@ for offer in offers:
 
 
 for part in parts:
-    data = ElementTree.SubElement(data_list, 'data')
+    data = ElementTree.SubElement(part_list, 'data')
 
     index = create_node('id', part['id'])
     model = create_node('model', part['model'])
@@ -97,4 +102,5 @@ for part in parts:
         data.append(el)
 
 # Finally
-write_root(root, '../frontend/static/service/japancar.xml')
+write_root(root, 'frontend/static/service/auto.xml')
+write_root(root_for_part, 'frontend/static/service/parts.xml')

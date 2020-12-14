@@ -12,7 +12,9 @@ import os
 import sys
 
 # Define path to app
-sys.path.append(os.path.abspath(os.path.curdir))
+sys.path.append(os.path.abspath(os.curdir))
+sys.path.append(os.path.abspath(os.path.join(os.curdir, 'database')))
+
 
 # Init app
 app = Flask(__name__,

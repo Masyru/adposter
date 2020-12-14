@@ -1,7 +1,11 @@
+import sys, os
+sys.path.append(os.path.abspath(os.curdir))
+
 from xml.etree import ElementTree
-from utils import create_node, write_root
+from database.utils import create_node, write_root
 from database.__all_modules import Offer
 from database.__session import create_session, global_init
+
 
 root = create_node('japancarru_import_data')
 root_for_part = create_node('japancarru_import_data')
@@ -45,6 +49,7 @@ for offer in offers:
     index = create_node('id', offer['id'])
     model = create_node('model', offer['model'])
     firm = create_node('firm', offer['firm'])
+    description = create_node('description', offer['description'])
     used = create_node('used', 0 if offer['used'] == 'новая' else 1 if offer['used'] == 'контрактная' or offer['used'] == 'подержанный' else 2)
     price = create_node('price', offer['price'])
     currency = create_node('currency', 'RUB')
@@ -65,7 +70,7 @@ for offer in offers:
         photo = ElementTree.SubElement(photos_list, 'photo_name')
         photo.text = '/public/uploads/' + i
 
-    for el in [index, model, firm, used, price, currency, s_presence, year, volume, fuel_type,
+    for el in [index, model, firm, description, used, price, currency, s_presence, year, volume, fuel_type,
                transmission, probegrf, probeg, rul, privod, pts_record, city]:
         data.append(el)
 
@@ -76,6 +81,7 @@ for part in parts:
     index = create_node('id', part['id'])
     model = create_node('model', part['model'])
     firm = create_node('firm', part['firm'])
+    description = create_node('description', part['description'])
     used = create_node('used', 0 if part['used'] == 'новая' else 1 if part['used'] == 'контрактная' or part[
         'used'] == 'подержанный' else 2)
     price = create_node('price', part['price'])
@@ -97,10 +103,11 @@ for part in parts:
         photo = ElementTree.SubElement(photos_list, 'photo_name')
         photo.text = '/public/uploads/' + i
 
-    for el in [index, model, firm, used, price, currency, s_presence,
+    for el in [index, model, firm, description, used, price, currency, s_presence,
                kuzov, engine, modelnumber, R_L, U_D, F_R, oem_code, producer, producer_code, price_old]:
         data.append(el)
 
-# Finally
+
 write_root(root, 'frontend/static/service/auto.xml')
 write_root(root_for_part, 'frontend/static/service/parts.xml')
+

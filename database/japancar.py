@@ -9,6 +9,7 @@ from database.__session import create_session, global_init
 
 root = create_node('japancarru_import_data')
 root_for_part = create_node('japancarru_import_data')
+SITE = 'http://http://45.80.70.172/'
 
 # Dealer info
 dealer = create_node('dealer')
@@ -68,7 +69,7 @@ for offer in offers:
     photos_list = create_node('photos_list')
     for i in offer['photos']:
         photo = ElementTree.SubElement(photos_list, 'photo_name')
-        photo.text = '/public/uploads/' + i
+        photo.text = SITE + 'public/uploads/' + i
 
     for el in [index, model, firm, description, used, price, currency, s_presence, year, volume, fuel_type,
                transmission, probegrf, probeg, rul, privod, pts_record, city, photos_list]:
@@ -101,7 +102,7 @@ for part in parts:
     photos_list = create_node('photos_list')
     for i in part['photos']:
         photo = ElementTree.SubElement(photos_list, 'photo_name')
-        photo.text = '/public/uploads/' + i
+        photo.text = SITE + 'public/uploads/' + i
 
     for el in [index, model, firm, description, used, price, currency, s_presence,
                kuzov, engine, modelnumber, R_L, U_D, F_R, oem_code, producer, producer_code, price_old, photos_list]:

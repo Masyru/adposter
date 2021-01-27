@@ -9,7 +9,7 @@ from database.__session import create_session, global_init
 
 root = create_node('japancarru_import_data')
 root_for_part = create_node('japancarru_import_data')
-SITE = 'http://http://45.80.70.172/'
+SITE = 'http://45.80.70.172/'
 
 # Dealer info
 dealer = create_node('dealer')

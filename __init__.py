@@ -158,7 +158,7 @@ def upload():
                 response = list()
                 for i in os.listdir(UPLOADS):
                     response.append({
-                        "url": i,
+                        "url": i.strip(),
                         "datetime": i.split('.')[0],
                         "offers": Offer.get_titles_via_image(session, i),
                     })

@@ -62,10 +62,10 @@ class Info extends React.Component{
                                 info.photos.length ? info.photos.map((path, i) =>
                                          <div key={i} className="photo"
                                               style={{
-                                                    backgroundImage: `url('/public/uploads/${path}')`,
+                                                    backgroundImage: `url('/public/uploads/${path.replace(' ', '')}')`,
                                                     backgroundPosition: 'center center',
                                                     backgroundSize: 'cover',
-                                    }}/>) : null
+                                        }}/>) : null
                             }
                         </div>
                         <div className="offer">
@@ -113,7 +113,7 @@ class Card extends React.Component{
                         this.props.data.map((obj, i) =>
                             <div className="course" key={i} onClick={() => this.props.setInfo(obj)}>
                                 <div className="course-preview" style={ obj.photos.length ? {
-                                    backgroundImage: `url('/public/uploads/${obj.photos[0]}')`,
+                                    backgroundImage: `url('/public/uploads/${obj.photos[0].replace(' ', '')}')`,
                                     backgroundPosition: 'center center',
                                     backgroundSize: 'cover',
                                 } : null }>

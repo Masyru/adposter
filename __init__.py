@@ -1,5 +1,4 @@
 import time
-
 from subprocess import Popen
 from flask import Flask, render_template, redirect, url_for, request, abort
 from settings import UPLOADS, ALLOWED_EXTENSIONS
@@ -14,7 +13,7 @@ import sys
 # Define path to app
 sys.path.append(os.path.abspath(os.curdir))
 sys.path.append(os.path.abspath(os.path.join(os.curdir, 'database')))
-
+JAPANCAR = './database/japancar.py'
 
 # Init app
 app = Flask(__name__,
@@ -118,7 +117,7 @@ def offer():
                     Offer.add_part(session, data)
 
                 # Generate xml
-                Popen(['python3', './services/japancar.py'])
+                Popen(['python3', JAPANCAR])
 
                 return dumps(True)
         except Exception as err:
@@ -134,12 +133,15 @@ def upload():
         if existed:
             files = request.files.getlist("file")
             excludes = []
-            for file in files:
-                if file and allowed_file(file.filename):
+            for i in range(len(files)):
+                file = files[i]
+                if file:
                     try:
                         if file.filename in excludes:
                             continue
-                        filename = "{}.{}".format(str(time.time()).split('.')[0], file.filename.rsplit('.', 1)[1].lower())
+                        print(file)
+                        filename = "{}.{}".format(str(int(str(time.time()).split('.')[0]) + i), file.filename.rsplit('.', 1)[1].lower())
+                        # img = file.read()
                         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
                         global_vars[str(request.cookies.get('token'))] = True
                         save_json_to_file(global_vars)
@@ -178,7 +180,7 @@ def delete_offer():
                 _id = int(request.args.get('id'))
                 Offer.delete_offer(session, _id)
                 # Generate xml
-                Popen(['python3', './services/japancar.py'])
+                Popen(['python3', JAPANCAR])
             elif request.args.get("type") == 'image':
                 name = request.args.get('name')
                 if os.path.isfile(os.path.join(UPLOADS, name)):

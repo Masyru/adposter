@@ -74,7 +74,16 @@ class Info extends React.Component{
                             }
                             <h2>{info.title}</h2>
 
-                            <p>{info.description}</p>
+                            <p>
+                                {
+                                    info.description.split('\n')
+                                        .map((text, j) =>
+                                            <>
+                                                {text}<br />
+                                            </>
+                                        )
+                                }
+                            </p>
                             <br />
                             <span className="price">{info.price === 0 ? 'Договорная' : `${info.price} ₽`}</span>
                             <div className="offer-group-btn">
@@ -124,7 +133,7 @@ class Card extends React.Component{
                                                 )
                                         }
                                     </p>
-                                    <span className="price">{ obj.price ? 'Договорная' : `${obj.price} ₽`}</span>
+                                    <span className="price">{obj.price === 0 ? 'Договорная' : `${obj.price} ₽`}</span>
                                 </div>
                             </div>)
                             :

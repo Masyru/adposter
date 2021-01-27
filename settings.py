@@ -15,7 +15,7 @@ UPLOADS = os.path.join(STATIC, 'uploads')
 SERVICE = os.path.join(STATIC, 'service')
 
 # Allow extensions to upload files
-ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'mpeg'}
+ALLOWED_EXTENSIONS = {'jpg', 'gif', 'jpeg', 'bmp', 'png'}
 
 
 if __name__ == '__main__':

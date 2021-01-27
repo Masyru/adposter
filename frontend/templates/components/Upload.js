@@ -138,7 +138,7 @@ export default class Upload extends React.Component{
                     <p>Выберите файл(-ы) для загрузки</p>
                 </div>
                 <div className="file-chooser">
-                    <input className="file-chooser__input" type="file" name='file' multiple accept="image/*,image/jpeg" />
+                    <input className="file-chooser__input" type="file" name='file' multiple accept="image/*" />
                 </div>
                 <input className="file-uploader__submit-button" type="submit" value="Загрузить" />
             </form>;

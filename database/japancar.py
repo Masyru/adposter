@@ -71,7 +71,7 @@ for offer in offers:
         photo.text = '/public/uploads/' + i
 
     for el in [index, model, firm, description, used, price, currency, s_presence, year, volume, fuel_type,
-               transmission, probegrf, probeg, rul, privod, pts_record, city]:
+               transmission, probegrf, probeg, rul, privod, pts_record, city, photos_list]:
         data.append(el)
 
 
@@ -104,7 +104,7 @@ for part in parts:
         photo.text = '/public/uploads/' + i
 
     for el in [index, model, firm, description, used, price, currency, s_presence,
-               kuzov, engine, modelnumber, R_L, U_D, F_R, oem_code, producer, producer_code, price_old]:
+               kuzov, engine, modelnumber, R_L, U_D, F_R, oem_code, producer, producer_code, price_old, photos_list]:
         data.append(el)
 
 

@@ -143,7 +143,7 @@ class Offer(SqlAlchemyBase):
         try:
             o = Offer()
             o.type_offer = 2
-            o.title = data['title']
+            o.title = data['name']
             o.description = data['description']
             o.firm = data['firm']
             o.model = data['model']

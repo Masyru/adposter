@@ -48,10 +48,12 @@ for offer in offers:
     data = ElementTree.SubElement(data_list, 'data')
 
     index = create_node('id', offer['id'])
+    name = create_node('name', offer['title'])
     model = create_node('model', offer['model'])
     firm = create_node('firm', offer['firm'])
     description = create_node('description', offer['description'])
-    used = create_node('used', 0 if offer['used'] == 'новая' else 1 if offer['used'] == 'контрактная' or offer['used'] == 'подержанный' else 2)
+    used = create_node('used', 0 if offer['used'] == 'новая' else 1 if offer['used'] == 'контрактная' or
+                                                                       offer['used'] == 'подержанный' else 2)
     price = create_node('price', offer['price'])
     currency = create_node('currency', 'RUB')
     s_presence = create_node('s_presence', offer['s_presence'])
@@ -71,7 +73,7 @@ for offer in offers:
         photo = ElementTree.SubElement(photos_list, 'photo_name')
         photo.text = SITE + 'public/uploads/' + i
 
-    for el in [index, model, firm, description, used, price, currency, s_presence, year, volume, fuel_type,
+    for el in [index, name, model, firm, description, used, price, currency, s_presence, year, volume, fuel_type,
                transmission, probegrf, probeg, rul, privod, pts_record, city, photos_list]:
         data.append(el)
 
@@ -80,11 +82,12 @@ for part in parts:
     data = ElementTree.SubElement(part_list, 'data')
 
     index = create_node('id', part['id'])
+    name = create_node('name', offer['title'])
     model = create_node('model', part['model'])
     firm = create_node('firm', part['firm'])
     description = create_node('description', part['description'])
-    used = create_node('used', 0 if part['used'] == 'новая' else 1 if part['used'] == 'контрактная' or part[
-        'used'] == 'подержанный' else 2)
+    used = create_node('used', 0 if part['used'] == 'новая' else 1 if part['used'] == 'контрактная' or
+                                                                      part['used'] == 'подержанный' else 2)
     price = create_node('price', part['price'])
     currency = create_node('currency', 'RUB')
     s_presence = create_node('s_presence', part['s_presence'])
@@ -104,7 +107,7 @@ for part in parts:
         photo = ElementTree.SubElement(photos_list, 'photo_name')
         photo.text = SITE + 'public/uploads/' + i
 
-    for el in [index, model, firm, description, used, price, currency, s_presence,
+    for el in [index, name, model, firm, description, used, price, currency, s_presence,
                kuzov, engine, modelnumber, R_L, U_D, F_R, oem_code, producer, producer_code, price_old, photos_list]:
         data.append(el)
 

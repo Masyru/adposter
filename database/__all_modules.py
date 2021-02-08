@@ -225,7 +225,7 @@ class Offer(SqlAlchemyBase):
                 'used': obj.used,
                 's_presence': obj.s_presence,
                 'price': obj.price,
-                'photos': obj.photos.split(',') if len(obj.photos.split(',')) else [],
+                'photos': obj.photos.split(', ') if len(obj.photos.split(', ')) else [],
                 'created_date': obj.date
             })
         resp.sort(key=lambda x: int(float(x['created_date'])))

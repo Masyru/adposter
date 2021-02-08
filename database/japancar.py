@@ -82,7 +82,7 @@ for part in parts:
     data = ElementTree.SubElement(part_list, 'data')
 
     index = create_node('id', part['id'])
-    name = create_node('name', offer['title'])
+    name = create_node('name', part['title'])
     model = create_node('model', part['model'])
     firm = create_node('firm', part['firm'])
     description = create_node('description', part['description'])
